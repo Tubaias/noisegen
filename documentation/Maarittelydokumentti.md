@@ -22,4 +22,5 @@ selvittää myöhemmin.
 
 ## Lähteet
 
-https://tampub.uta.fi/bitstream/handle/10024/101043/GRADU-1494236249.pdf
+[Terrain synthesis using noise](https://tampub.uta.fi/bitstream/handle/10024/101043/GRADU-1494236249.pdf) (Tuomo Hyttinen 2017)
+
