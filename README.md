@@ -1,5 +1,8 @@
 # noisegen
 
+![ASCII perlin noise](https://github.com/Tubaias/noisegen/blob/master/documentation/images/ASCII_perlin.png "ASCII Perlin noise")
+
+
 ## Viikkoraportit
 
 [Viikko 1](https://github.com/Tubaias/noisegen/blob/master/documentation/weekreports/viikko1.md)
