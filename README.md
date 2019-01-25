@@ -11,4 +11,5 @@
 
 ## Images
 
-![ASCII perlin noise](https://github.com/Tubaias/noisegen/blob/master/documentation/images/ASCII_perlin.png "ASCII Perlin noise")
+ASCII Perlin noise
+![ASCII Perlin noise](https://github.com/Tubaias/noisegen/blob/master/documentation/images/ASCII_perlin.png "ASCII Perlin noise")
