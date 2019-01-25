@@ -8,7 +8,8 @@ public class ArrayFiller {
 
     /**
      * Fills a 2D array of size width*heigth with noise.
-     * @param scale Scaling factor to determine the 'size' of the noise pattern relative to the array.
+     *
+     * @param scale Scaling factor between 0 and 1 (exclusive) to determine the 'size' of the noise pattern relative to the array.
      * @param gen NoiseGenerator to use for generating the array.
      */
     public static double[][] fill2DArray(int width, int heigth, double scale, NoiseGenerator gen) {
@@ -25,6 +26,7 @@ public class ArrayFiller {
 
     /**
      * Fills a 3D array of size width*heigth*depth with noise.
+     *
      * @param scale Scaling factor to determine the 'size' of the noise pattern relative to the array.
      * @param gen NoiseGenerator to use for generating the array.
      */

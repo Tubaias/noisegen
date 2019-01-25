@@ -34,3 +34,11 @@ javadoc {
     source = sourceSets.main.allJava
     classpath = configurations.compile
 }
+
+jacocoTestReport {
+    afterEvaluate {
+        classDirectories = files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: 'io/**')
+        })
+    }
+}

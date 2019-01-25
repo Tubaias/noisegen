@@ -44,32 +44,32 @@ public class PerlinGenerator implements NoiseGenerator {
      * Fade function used to ease coordinate values towards integral values to
      * create a smoother final output. Uses the formula 6t^5-15t^4+10t^3 .
      */
-    public static double fade(double t) {
+    private double fade(double t) {
         return t * t * t * (t * (t * 6 - 15) + 10);
     }
 
     /**
      * Linear interpolation.
      */
-    public static double lerp(double a, double b, double x) {
+    private double lerp(double a, double b, double x) {
         return b * x + a * (1 - x);
     }
 
     /**
      * Randomly selects a gradient value based on the hash.
      */
-    public static double grad(int hash, double x, double y) {
+    private double grad(int hash, double x, double y) {
         switch (hash & 3) {
-        case 0:
-            return x + y;
-        case 1:
-            return -x + y;
-        case 2:
-            return x - y;
-        case 3:
-            return -x - y;
-        default:
-            throw new RuntimeException("Something went horribly wrong");
+            case 0:
+                return x + y;
+            case 1:
+                return -x + y;
+            case 2:
+                return x - y;
+            case 3:
+                return -x - y;
+            default:
+                throw new RuntimeException("Something went horribly wrong");
         }
     }
 

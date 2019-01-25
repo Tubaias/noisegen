@@ -21,10 +21,14 @@ public class CommandLineIO implements IO {
         System.out.println("cmd IO running");
 
         NoiseGenerator gen = new PerlinGenerator();
-        ArrayFiller filler = new ArrayFiller();
 
-        double[][] noise = filler.fill2DArray(64, 64, 0.05, gen);
+        double scale = 0.05;
+        double[][] noise = ArrayFiller.fill2DArray(64, 64, scale, gen);
         print2DArray(noise);
+
+        System.out.println("----");
+        System.out.println(gen.get2DNoise(1.55, 0.25));
+        System.out.println(gen.get2DNoise(3.15, 0.35));
     }
 
     /**
