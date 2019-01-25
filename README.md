@@ -3,6 +3,7 @@
 ## Viikkoraportit
 
 [Viikko 1](https://github.com/Tubaias/noisegen/blob/master/documentation/weekreports/viikko1.md)
+[Viikko 2](https://github.com/Tubaias/noisegen/blob/master/documentation/weekreports/viikko2.md)
 
 ## Muu dokumentaatio
 
