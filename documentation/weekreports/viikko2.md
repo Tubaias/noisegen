@@ -14,3 +14,12 @@ paljon tutkimusta. Pian täytyy ainakin selvittää Worley noise -algoritmin toi
 
 Ensi viikolla yritän toteuttaa Worley noisen, lisätä ainakin jotain käyttäjäsyötteitä ohjelman toimintaan, ja jos aika riittää, kenties
 ottaa käyttöön jonkin graafiikkakirjaston.
+
+---
+
+Vastauksena viikon 1 palautteessa olleeseen kysymykseen algoritmien 'hyvyyden' evaluoinnista:
+
+Melualgorimien hyvyyden arviointi on hieman haastavaa, koska algoritmien käyttötarkoitus on juuri visuaalisissa sovelluksissa,
+kuten 3D-grafiikassa, maastongeneroinnissa ja textuurien generoinnissa. Tämän vuoksi melualgoritmin merkittävät ominaisuudet ovat
+juuri sen aikavaativuus sekä sen tuottama visuaalinen lopputulos. Yritän kuitenkin keksiä projektiin jotain ylimääräistä
+metriikkaa algoritmeistä, kuten kenties algoritmien tuottamien arvojen muodostamien jakaumien vertailu.
