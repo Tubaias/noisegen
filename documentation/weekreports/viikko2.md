@@ -3,7 +3,7 @@
 Tällä viikolla otin loin itse projektin gradlella ja otin käyttöön JUnitin, Jacocon ja Javadocsin.
 Projektin alustamisen jälkeen kirjoitin yksinkertaisen rungon ohjelmalle, melkolailla valmiin Perlin noise -implementaation ja
 apuluokat joiden avulla melualgoritmilla voidaan luoda taulukoita, jotka voidaan sitten tulostaa komentoriville ASCII-kuvana.
-Uskoisin siis ohjelman edistyvän hyvällä vauhdilla.
+Uskoisin siis ohjelman edistyvän hyvällä vauhdilla. Viikolla tein projektin eteen töitä yhteensä noin 12 tuntia.
 
 Algoritmin toteutus vaati perinpohjaista perehtymistä Perlin noise -algoritmin toimintaan, ja vaikkakin jotkin toiminnan seikat
 ovat hieman epäselviä, ymmärrän sen toiminnan suurimmaksi osin. Myöskin gradlen käyttö sai hyvää kertausta.
