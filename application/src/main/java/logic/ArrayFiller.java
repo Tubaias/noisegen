@@ -1,12 +1,17 @@
 
 package logic;
 
+/**
+ * Fills 2D or 3D arrays of given dimensions with a given noise algorithm.
+ */
 public class ArrayFiller {
-    public ArrayFiller() {
 
-    }
-
-    public double[][] fill2DArray(int width, int heigth, double scale, NoiseGenerator gen) {
+    /**
+     * Fills a 2D array of size width*heigth with noise.
+     * @param scale Scaling factor to determine the 'size' of the noise pattern relative to the array.
+     * @param gen NoiseGenerator to use for generating the array.
+     */
+    public static double[][] fill2DArray(int width, int heigth, double scale, NoiseGenerator gen) {
         double[][] noiseArray = new double[width][heigth];
 
         for (int i = 0; i < width; i++) {
@@ -18,7 +23,12 @@ public class ArrayFiller {
         return noiseArray;
     }
 
-    public double[][][] fill3DArray(int width, int heigth, int depth, double scale, NoiseGenerator gen) {
+    /**
+     * Fills a 3D array of size width*heigth*depth with noise.
+     * @param scale Scaling factor to determine the 'size' of the noise pattern relative to the array.
+     * @param gen NoiseGenerator to use for generating the array.
+     */
+    public static double[][][] fill3DArray(int width, int heigth, int depth, double scale, NoiseGenerator gen) {
         double[][][] noiseArray = new double[width][heigth][depth];
 
         for (int i = 0; i < width; i++) {

@@ -5,8 +5,14 @@ import logic.ArrayFiller;
 import logic.NoiseGenerator;
 import logic.PerlinGenerator;
 
+/**
+ * A class for input/output via the command line.
+ */
 public class CommandLineIO implements IO {
 
+    /**
+     * Constructor. Dependency injection to be added, propably.
+     */
     public CommandLineIO() {
 
     }
@@ -14,33 +20,21 @@ public class CommandLineIO implements IO {
     public void run() {
         System.out.println("cmd IO running");
 
-        PerlinGenerator gen = new PerlinGenerator();
+        NoiseGenerator gen = new PerlinGenerator();
         ArrayFiller filler = new ArrayFiller();
 
         double[][] noise = filler.fill2DArray(64, 64, 0.05, gen);
-
-        //
-        for (int i = 0; i < gen.hashes.length; i++) {
-            for (int j = 0; j < gen.hashes[i].length; j++) {
-                System.out.print(gen.hashes[i][j] + ",");
-
-                if (j % 2 == 1) {
-                    System.out.print("  ");
-                }
-            }
-            if (i % 2 == 1) {
-                System.out.println();
-            }
-
-            System.out.println();
-        }
-        //
-
-        print2DNoiseArray(noise);
+        print2DArray(noise);
     }
 
-    private void print2DNoiseArray(double[][] noise) {
-        String[] symbols = new String[] {".", "-", "~", "+", "o", "O", "0", "£", "#", "@"};
+    /**
+     * Prints a 2D noise array on the command line with ASCII symbols representing
+     * different numeric values.
+     *
+     * @param noise Array to print.
+     */
+    public static void print2DArray(double[][] noise) {
+        String[] symbols = new String[] { ".", "-", "~", "+", "o", "£", "O", "0", "#", "@" };
 
         for (double[] xs : noise) {
             for (double y : xs) {

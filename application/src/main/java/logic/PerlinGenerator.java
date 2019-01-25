@@ -1,44 +1,38 @@
 
 package logic;
 
+/**
+ * Implements the Perlin noise algorithm to calculate a pseudorandom
+ * value between 0 and 1 for a given point.
+ */
 public class PerlinGenerator implements NoiseGenerator {
     private final int[] p;
-    private int repeat;
-    public int[][] hashes;
 
     public PerlinGenerator() {
         p = createPermutation();
-
-        hashes = new int[8][8];
     }
 
     public double get2DNoise(double x, double y) {
-        if (repeat > 0) {
-            x = x % repeat;
-            y = y % repeat;
-        }
-
+        // coordinates of the cell the point is in
         int cellX = (int) x & 255;
         int cellY = (int) y & 255;
+        // relative coordinates of the point within the cell
         double localX = x - (int) x;
         double localY = y - (int) y;
 
         double u = fade(localX);
         double v = fade(localY);
 
+        // calculating hashes
         int aa = p[p[cellX] + cellY];
-        int ab = p[p[cellX] + inc(cellY)];
-        int ba = p[p[inc(cellX)] + cellY];
-        int bb = p[p[inc(cellX)] + inc(cellY)];
+        int ab = p[p[cellX] + cellY + 1];
+        int ba = p[p[cellX + 1] + cellY];
+        int bb = p[p[cellX + 1] + cellY + 1];
 
-        hashes[cellX * 2][cellY * 2] = aa & 3;
-        hashes[cellX * 2][cellY * 2 + 1] = ab & 3;
-        hashes[cellX * 2 + 1][cellY * 2] = ba & 3;
-        hashes[cellX * 2 + 1][cellY * 2 + 1] = bb & 3;
-
+        // calculate a pseudorandom value for the point with the gradient and
+        // interpolation algorithms
         double x1 = lerp(grad(aa, localX, localY), grad(ba, localX - 1, localY), u);
         double x2 = lerp(grad(ab, localX, localY - 1), grad(bb, localX - 1, localY - 1), u);
-
         return (lerp(x1, x2, v) + 1) / 2;
     }
 
@@ -47,65 +41,36 @@ public class PerlinGenerator implements NoiseGenerator {
     }
 
     /**
-     * Linear interpolation.
+     * Fade function used to ease coordinate values towards integral values to
+     * create a smoother final output. Uses the formula 6t^5-15t^4+10t^3 .
      */
-    private double lerp(double a, double b, double x) {
-        return b * x + a * (1 - x);
-    }
-
-    /**
-     * Fade function designed by Ken Perlin. Used to ease coordinate values towards
-     * integral values to create a smoother final output. Uses the formula
-     * 6t^5-15t^4+10t^3 .
-     */
-    private double fade(double t) {
+    public static double fade(double t) {
         return t * t * t * (t * (t * 6 - 15) + 10);
     }
 
     /**
-     * Incrementation function with optional wrapping.
+     * Linear interpolation.
      */
-    private int inc(int num) {
-        num++;
-
-        if (repeat > 0) {
-            num = num % repeat;
-        }
-
-        return num;
+    public static double lerp(double a, double b, double x) {
+        return b * x + a * (1 - x);
     }
 
     /**
      * Randomly selects a gradient value based on the hash.
      */
-    private double grad(int hash, double x, double y) {
+    public static double grad(int hash, double x, double y) {
         switch (hash & 3) {
-            case 0:
-                return x + y;
-            case 1:
-                return -x + y;
-            case 2:
-                return x - y;
-            case 3:
-                return -x - y;
-            default:
-                throw new RuntimeException("Something went horribly wrong");
+        case 0:
+            return x + y;
+        case 1:
+            return -x + y;
+        case 2:
+            return x - y;
+        case 3:
+            return -x - y;
+        default:
+            throw new RuntimeException("Something went horribly wrong");
         }
-    }
-
-    private double _grad(int hash, double x, double y) {
-        int h = hash & 15;
-        double u = h < 8 ? x : y;
-
-        double v;
-
-        if (h < 4) {
-            v = y;
-        } else {
-            v = x;
-        }
-
-        return ((h&1) == 0 ? u : -u)+((h&2) == 0 ? v : -v);
     }
 
     /**
