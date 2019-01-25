@@ -10,7 +10,7 @@ ovat hieman epäselviä, ymmärrän sen toiminnan suurimmaksi osin. Myöskin gra
 
 Tähän mennessä tehdyissä asioissa ei ole ollut suurempia epäselvyyksiä, mutta tulevia ominaisuuksia varten täytyy tehdä vielä
 paljon tutkimusta. Pian täytyy ainakin selvittää Worley noise -algoritmin toimintaperiaate ja löytää sopiva Java-kirjasto
-2D- ja kenties myös 3D-kuvien piirtämiseen. Tällä hetkellä harkitsen joko JavaFx:n tai LWJGL:n käyttöä.
+2D- ja kenties myös 3D-kuvien piirtämiseen. Tällä hetkellä harkitsen joko JavaFX:n tai LWJGL:n käyttöä.
 
 Ensi viikolla yritän toteuttaa Worley noisen, lisätä ainakin jotain käyttäjäsyötteitä ohjelman toimintaan, ja jos aika riittää, kenties
 ottaa käyttöön jonkin graafiikkakirjaston.
