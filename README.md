@@ -12,5 +12,11 @@
 
 ## Images
 
+2D Worley noise
+![2D Worley noise](https://github.com/Tubaias/noisegen/blob/master/documentation/images/worley2D.png "2D Worley noise")
+
+2D Perlin noise
+![2D Perlin noise](https://github.com/Tubaias/noisegen/blob/master/documentation/images/perlin2D.png "2D Perlin noise")
+
 ASCII Perlin noise
 ![ASCII Perlin noise](https://github.com/Tubaias/noisegen/blob/master/documentation/images/ASCII_perlin.png "ASCII Perlin noise")
