@@ -22,7 +22,7 @@ public class ArrayFillerTest {
         int width = 64;
         int heigth = 145;
 
-        double[][] array = ArrayFiller.fill2DArray(width, heigth, 0.5, gen);
+        double[][] array = ArrayFiller.fill2DArray(width, heigth, 0.5, gen, 12345);
 
         assertEquals(width, array.length);
         assertEquals(heigth, array[0].length);
@@ -33,8 +33,8 @@ public class ArrayFillerTest {
         int width = 64;
         int heigth = 145;
 
-        double[][] array1 = ArrayFiller.fill2DArray(width, heigth, 0.5, gen);
-        double[][] array2 = ArrayFiller.fill2DArray(width, heigth, 0.5, gen);
+        double[][] array1 = ArrayFiller.fill2DArray(width, heigth, 0.5, gen, 12345);
+        double[][] array2 = ArrayFiller.fill2DArray(width, heigth, 0.5, gen, 12345);
         assertTrue(Arrays.deepEquals(array1, array2));
     }
 
@@ -44,7 +44,7 @@ public class ArrayFillerTest {
         int heigth = 145;
         int depth = 5;
 
-        double[][][] array = ArrayFiller.fill3DArray(width, heigth, depth, 0.5, gen);
+        double[][][] array = ArrayFiller.fill3DArray(width, heigth, depth, 0.5, gen, 12345);
 
         assertEquals(width, array.length);
         assertEquals(heigth, array[0].length);
@@ -57,8 +57,8 @@ public class ArrayFillerTest {
         int heigth = 145;
         int depth = 5;
 
-        double[][][] array1 = ArrayFiller.fill3DArray(width, heigth, depth, 0.5, gen);
-        double[][][] array2 = ArrayFiller.fill3DArray(width, heigth, depth, 0.5, gen);
+        double[][][] array1 = ArrayFiller.fill3DArray(width, heigth, depth, 0.5, gen, 12345);
+        double[][][] array2 = ArrayFiller.fill3DArray(width, heigth, depth, 0.5, gen, 12345);
         assertTrue(Arrays.deepEquals(array1, array2));
     }
 }

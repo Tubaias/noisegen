@@ -4,6 +4,7 @@ package io;
 import logic.ArrayFiller;
 import logic.NoiseGenerator;
 import logic.PerlinGenerator;
+import logic.WorleyGenerator;
 
 /**
  * A class for input/output via the command line.
@@ -21,14 +22,11 @@ public class CommandLineIO implements IO {
         System.out.println("cmd IO running");
 
         NoiseGenerator gen = new PerlinGenerator();
+        NoiseGenerator gen2 = new WorleyGenerator();
 
-        double scale = 0.05;
-        double[][] noise = ArrayFiller.fill2DArray(64, 64, scale, gen);
+        double scale = 0.1;
+        double[][] noise = ArrayFiller.fill2DArray(64, 64, scale, gen2, 11111);
         print2DArray(noise);
-
-        System.out.println("----");
-        System.out.println(gen.get2DNoise(1.55, 0.25));
-        System.out.println(gen.get2DNoise(3.15, 0.35));
     }
 
     /**

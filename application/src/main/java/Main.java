@@ -1,5 +1,6 @@
 
 import io.IO;
+import io.ImageDrawer;
 import io.CommandLineIO;
 
 /**
@@ -9,7 +10,10 @@ public class Main {
     public static void main(String[] args) {
         System.out.println("Henlo wrlod,,");
 
-        IO io = new CommandLineIO();
-        io.run();
+        //IO io = new CommandLineIO();
+        //io.run();
+
+        ImageDrawer drawer = new ImageDrawer();
+        drawer.run();
     }
 }

@@ -12,7 +12,7 @@ public class PerlinGenerator implements NoiseGenerator {
         p = createPermutation();
     }
 
-    public double get2DNoise(double x, double y) {
+    public double get2DNoise(double x, double y, int seed) {
         // coordinates of the cell the point is in
         int cellX = (int) x & 255;
         int cellY = (int) y & 255;
@@ -36,7 +36,7 @@ public class PerlinGenerator implements NoiseGenerator {
         return (lerp(x1, x2, v) + 1) / 2;
     }
 
-    public double get3DNoise(double x, double y, double z) {
+    public double get3DNoise(double x, double y, double z, int seed) {
         return 0;
     }
 
