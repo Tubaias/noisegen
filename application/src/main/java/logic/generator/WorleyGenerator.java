@@ -76,6 +76,10 @@ public class WorleyGenerator implements NoiseGenerator {
             }
         }
 
+        if (minDist > 1) {
+            minDist = 1;
+        }
+
         return minDist;
     }
 
