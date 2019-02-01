@@ -1,5 +1,5 @@
 
-package logic;
+package logic.generator;
 
 /**
  * Interface for different noise generation algorithms.
@@ -9,10 +9,10 @@ public interface NoiseGenerator {
     /**
      * Returns the noise value between 0 and 1 for a given 2D coordinate.
      */
-    public double get2DNoise(double x, double y, int seed);
+    public double get2DNoise(double x, double y);
 
     /**
      * Returns the noise value between 0 and 1 for a given 3D coordinate.
      */
-    public double get3DNoise(double x, double y, double z, int seed);
+    public double get3DNoise(double x, double y, double z);
 }

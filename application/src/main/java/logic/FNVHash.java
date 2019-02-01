@@ -1,6 +1,9 @@
 
 package logic;
 
+/**
+ * FNV-1a hashing algorithm implementation.
+ */
 public class FNVHash {
     private long offsetBasis;
     private long FNV_prime;
@@ -11,6 +14,9 @@ public class FNVHash {
         FNV_prime = 16777619l;
     }
 
+    /**
+     * Returns a hash based on the inputs.
+     */
     public long get2DHash(int x, int y) {
         long hash = offsetBasis;
         byte[] bytes = toByteArray(new int[]{x, y});
@@ -20,11 +26,7 @@ public class FNVHash {
             hash *= FNV_prime;
         }
 
-        if (hash < 0) {
-            hash = -hash;
-        }
-
-        return hash;
+        return hash & (0x100000000l - 1);
     }
 
     private byte[] toByteArray(int[] ints) {
