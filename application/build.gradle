@@ -10,6 +10,8 @@ apply plugin: 'java'
 apply plugin: 'application'
 apply plugin: 'jacoco'
 
+project.ext.lwjglVersion = "3.0.0a"
+
 mainClassName = 'Main'
 
 jar {

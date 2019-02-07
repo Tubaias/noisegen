@@ -56,7 +56,7 @@ public class CommandLineIO implements IO {
         if ("ascii".contains(input)) {
             print2DArray(noise);
         } else if ("png".contains(input)) {
-            printer.print2DArray(noise);
+            printer.print2DToFile(noise);
         }
     }
 
