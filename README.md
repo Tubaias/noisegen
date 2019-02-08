@@ -19,7 +19,7 @@
 [Testausdokumentti](https://github.com/Tubaias/noisegen/blob/master/documentation/Testausdokumentti.md)
 
 
-## Images
+## Kuvia
 
 2D Worley noise
 ![2D Worley noise](https://github.com/Tubaias/noisegen/blob/master/documentation/images/worley2D.png "2D Worley noise")
