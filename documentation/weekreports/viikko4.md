@@ -3,7 +3,8 @@
 Tällä viikolla yritin saada javaFX:n toimimaan ohjelmaan, mikä kuitenkin osoittautui Gradlen ja Java 10:n kanssa melko hankalaksi.
 Lopulta päädyin käyttämään JavaFX:n sijaan ilman packageja tai importteja toimivaa Javan Swingiä ja toteutin tällä melko
 yksinkertaisen graafisen käyttöliittymän, joka ottaa käyttäjältä syötteet ja piirtää niiden perusteella kuvan ohjelman ikkunaan.
-Lisäksi hyvä lohko viikon ajasta kului alustavaan dokumentaation kirjoittamiseen.
+Lisäksi hyvä lohko viikon ajasta kului alustavaan dokumentaation kirjoittamiseen. 
+Tällä viikolla tein projektin eteen töitä noin 10 tuntia.
 
 Tällä viikolla opin siis lähinnä Javan Swingin käyttöä. Lisäksi selvisi varmuudella melko kiinnostamaton tulos, että molemmat
 implementoidut algoritmit ovat kaksiulotteisilla pisteillä aika- ja tilavaativuusluokkaa O(1).
