@@ -8,9 +8,16 @@
 
 [Viikko 3](https://github.com/Tubaias/noisegen/blob/master/documentation/weekreports/viikko3.md)
 
+[Viikko 4](https://github.com/Tubaias/noisegen/blob/master/documentation/weekreports/viikko4.md)
+
 ## Muu dokumentaatio
 
 [Määrittelydokumentti](https://github.com/Tubaias/noisegen/blob/master/documentation/Maarittelydokumentti.md)
+
+[Toteutusdokumentti](https://github.com/Tubaias/noisegen/blob/master/documentation/Toteutusdokumentti.md)
+
+[Testausdokumentti](https://github.com/Tubaias/noisegen/blob/master/documentation/Testausdokumentti.md)
+
 
 ## Images
 
