@@ -15,6 +15,8 @@ public class ArrayFiller {
      * @param gen NoiseGenerator to use for generating the array.
      */
     public static double[][] fill2DArray(int width, int height, double scale, NoiseGenerator gen) {
+        long time = System.nanoTime();
+
         double[][] noiseArray = new double[width][height];
 
         for (int i = 0; i < width; i++) {
@@ -22,6 +24,9 @@ public class ArrayFiller {
                 noiseArray[i][j] = gen.get2DNoise(i * scale, j * scale);
             }
         }
+
+        long endTime = System.nanoTime();
+        System.out.println("generation duration: " + ((endTime - time) / 1_000_000.0));
 
         return noiseArray;
     }

@@ -17,6 +17,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
 import logic.ArrayFiller;
+import logic.LCGRandom;
 import logic.generator.NoiseGenerator;
 import logic.generator.PerlinGenerator;
 import logic.generator.WorleyGenerator;
@@ -68,6 +69,8 @@ public class GraphicIO implements IO, ActionListener {
     public void actionPerformed(ActionEvent e) {
         if ("generate".equals(e.getActionCommand())) {
             generateImage();
+        } else if ("random".equals(e.getActionCommand())) {
+            randomSeed();
         }
     }
 
@@ -90,6 +93,19 @@ public class GraphicIO implements IO, ActionListener {
         imagePanel.add(new JLabel(img));
 
         frame.pack();
+    }
+
+    private void randomSeed() {
+        // generates a random seed and sets it in the appropriate field.
+
+        LCGRandom rand = new LCGRandom(System.nanoTime());
+        int seed = (int) rand.getRandom();
+
+        if (seed < 0) {
+            seed = -seed;
+        }
+
+        seedField.setText(seed + "");
     }
 
     private JPanel setupItems() {
@@ -127,6 +143,10 @@ public class GraphicIO implements IO, ActionListener {
         seedFieldPanel.setLayout(new FlowLayout());
         seedFieldPanel.add(seedField);
 
+        JButton randomSeedButton = new JButton("random seed");
+        randomSeedButton.setActionCommand("random");
+        randomSeedButton.addActionListener(this);
+
         JButton generateButton = new JButton("generate noise image");
         generateButton.setActionCommand("generate");
         generateButton.addActionListener(this);
@@ -142,6 +162,7 @@ public class GraphicIO implements IO, ActionListener {
         items.add(scaleFieldPanel);
         items.add(new JLabel("seed (only affects Worley currently):"));
         items.add(seedFieldPanel);
+        items.add(randomSeedButton);
         items.add(new JLabel(" "));
         items.add(generateButton);
 
