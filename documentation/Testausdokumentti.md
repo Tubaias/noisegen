@@ -9,6 +9,6 @@ noise -algoritmilla kesti noin 850 millisekuntia. Ohjelman toteutuksilla Perlin 
 vakioaikaisuudesta huolimatta noin kymmenen kertaa nopeampi samoilla syötteillä.
 
 Pääalgoritmien testauksen lisäksi ohjelmalle on toteutettu eri logiikkaluokkien tulosten oikeellisuutta vahtivia yksikkötestejä.
-Kaiken kaikkiaan ohjelman logiikkaluokkien testien rivikattavuus on 98% ja haaraumakattavuus 90%.
+Kaiken kaikkiaan ohjelman logiikkaluokkien testien rivikattavuus on 97% ja haaraumakattavuus 94%.
 
 ![Kattavuusraportti](https://github.com/Tubaias/noisegen/blob/master/documentation/images/testcoverage.png)
