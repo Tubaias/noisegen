@@ -13,7 +13,7 @@ public class PerlinGeneratorTest {
 
     @Before
     public void setUp() {
-        gen = new PerlinGenerator();
+        gen = new PerlinGenerator(123);
     }
 
     @Test

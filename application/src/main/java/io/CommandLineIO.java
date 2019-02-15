@@ -68,7 +68,7 @@ public class CommandLineIO implements IO {
         String input = scanner.nextLine().toLowerCase();
 
         if ("perlin noise".contains(input)) {
-            gen = new PerlinGenerator();
+            gen = new PerlinGenerator(123);
         } else if ("worley noise".contains(input)) {
             System.out.println("Input an integer seed:");
             try {

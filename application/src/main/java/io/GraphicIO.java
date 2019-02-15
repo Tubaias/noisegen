@@ -77,9 +77,11 @@ public class GraphicIO implements IO, ActionListener {
     private void generateImage() {
         // generates a noise image and shows it on the screen.
 
-        NoiseGenerator gen = new PerlinGenerator();
+        NoiseGenerator gen;
 
-        if (worleyButton.isSelected()) {
+        if (perlinButton.isSelected()) {
+            gen = new PerlinGenerator(Integer.parseInt(seedField.getText()));
+        } else {
             gen = new WorleyGenerator(Integer.parseInt(seedField.getText()));
         }
 
@@ -160,7 +162,7 @@ public class GraphicIO implements IO, ActionListener {
         items.add(heightFieldPanel);
         items.add(new JLabel("scale (try values < 0.1):"));
         items.add(scaleFieldPanel);
-        items.add(new JLabel("seed (only affects Worley currently):"));
+        items.add(new JLabel("seed:"));
         items.add(seedFieldPanel);
         items.add(randomSeedButton);
         items.add(new JLabel(" "));
