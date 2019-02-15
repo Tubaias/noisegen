@@ -30,8 +30,8 @@ public class GraphicIO implements IO, ActionListener {
     private ImagePrinter printer;
     private double[][] noise;
     private JFrame frame;
-    private JFrame statsFrame;
 
+    private JFrame statsFrame;
     private JRadioButton perlinButton;
     private JRadioButton worleyButton;
     private JTextField widthField;
@@ -40,6 +40,7 @@ public class GraphicIO implements IO, ActionListener {
     private JTextField seedField;
     private JButton statsButton;
     private JPanel imagePanel;
+    private long generationTime;
     private JLabel notificationLabel;
 
     /**
@@ -100,7 +101,14 @@ public class GraphicIO implements IO, ActionListener {
             scale = Double.parseDouble(scaleField.getText());
             seed = Integer.parseInt(seedField.getText());
         } catch (Exception e) {
-            notificationLabel.setText("Illegal parameters.");
+            notificationLabel.setText("[!] Illegal parameters.");
+            statsButton.setEnabled(false);
+            frame.pack();
+            return;
+        }
+
+        if (width < 1 || height < 1) {
+            notificationLabel.setText("[!] Illegal parameters.");
             statsButton.setEnabled(false);
             frame.pack();
             return;
@@ -113,7 +121,12 @@ public class GraphicIO implements IO, ActionListener {
             gen = new WorleyGenerator(seed);
         }
 
+        long time = System.nanoTime();
+
         noise = ArrayFiller.fill2DArray(width, height, scale, gen);
+
+        long endTime = System.nanoTime();
+        generationTime = endTime - time;
 
         ImageIcon img = new ImageIcon(printer.print2D(noise));
         imagePanel.removeAll();
@@ -155,6 +168,8 @@ public class GraphicIO implements IO, ActionListener {
         textStatPanel.setLayout(new BoxLayout(textStatPanel, BoxLayout.PAGE_AXIS));
         statsFrame.getContentPane().add(textStatPanel, BorderLayout.WEST);
 
+        textStatPanel.add(new JLabel("Time taken to generate: " + (generationTime / 1_000_000.0) + "ms"));
+        textStatPanel.add(new JLabel(" "));
         textStatPanel.add(new JLabel("Points in range 0.0 - 0.2: " + ArrayStats.pointsInRange(noise, 0.0, 0.2)));
         textStatPanel.add(new JLabel("Points in range 0.2 - 0.4: " + ArrayStats.pointsInRange(noise, 0.2, 0.4)));
         textStatPanel.add(new JLabel("Points in range 0.4 - 0.6: " + ArrayStats.pointsInRange(noise, 0.4, 0.6)));
