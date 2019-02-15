@@ -4,7 +4,7 @@
 
 Ohjelma toimii tällä hetkellä yhden näkymän graafisessa käyttöliittymässä, jossa käyttäjä voi valita parametrit generoinnille
 (käytetty algoritmi, kuvan leveys ja korkeus, melun skaala ja satunnaisgeneroinnin lähtöarvo). Generointinappia painaessa ohjelma
-generoi halutuilla parametreilla ja melualgoritmilla taulukon, joka sitten piirretään näytölle grayscale-kuvana.
+generoi halutuilla parametreilla ja melualgoritmilla taulukon, joka sitten piirretään näytölle grayscale-kuvana. Lisäksi ohjelmaan saa nappia painamalla näkyviin statistiikkaa generoidusta taulukosta, kuten generointiin kestänyt aika ja taulukon arvojen jakautuminen.
 
 ## Algoritmien analyysi
 
