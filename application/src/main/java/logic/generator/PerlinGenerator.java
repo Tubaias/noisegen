@@ -1,7 +1,7 @@
 
 package logic.generator;
 
-import logic.LCGRandom;
+import logic.utility.LCGRandom;
 
 /**
  * Implements the Perlin noise algorithm to calculate a pseudorandom value

@@ -1,5 +1,5 @@
 
-package logic;
+package logic.utility;
 
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;

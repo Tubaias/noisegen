@@ -1,8 +1,8 @@
 
 package logic.generator;
 
-import logic.LCGRandom;
-import logic.FNVHash;
+import logic.utility.LCGRandom;
+import logic.utility.FNVHash;
 
 public class WorleyGenerator implements NoiseGenerator {
     private LCGRandom rand;
@@ -53,16 +53,16 @@ public class WorleyGenerator implements NoiseGenerator {
                 rand.setSeed(hashValue);
 
                 // generate the amount of feature points for this cell
-                long lastRandom = rand.getRandom();
-                int featurePointAmount = featurePointCount(lastRandom, featurePointLower, featurePointUpper);
+                long random = rand.getRandom();
+                int featurePointAmount = featurePointCount(random, featurePointLower, featurePointUpper);
 
                 // generate the feature points and check their distance to the initial point
                 for (int p = 0; p < featurePointAmount; p++) {
-                    lastRandom = rand.getRandom();
-                    double randomX = (double) lastRandom / 0x100000000l;
+                    random = rand.getRandom();
+                    double randomX = (double) random / 0x100000000l;
 
-                    lastRandom = rand.getRandom();
-                    double randomY = (double) lastRandom / 0x100000000l;
+                    random = rand.getRandom();
+                    double randomY = (double) random / 0x100000000l;
 
                     double featurePointX = cellX + randomX;
                     double featurePointY = cellY + randomY;

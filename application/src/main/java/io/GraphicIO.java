@@ -16,8 +16,9 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
-import logic.ArrayFiller;
-import logic.LCGRandom;
+import logic.utility.ArrayFiller;
+import logic.utility.ArrayStats;
+import logic.utility.LCGRandom;
 import logic.generator.NoiseGenerator;
 import logic.generator.PerlinGenerator;
 import logic.generator.WorleyGenerator;
@@ -29,6 +30,7 @@ public class GraphicIO implements IO, ActionListener {
     private ImagePrinter printer;
     private double[][] noise;
     private JFrame frame;
+    private JFrame statsFrame;
 
     private JRadioButton perlinButton;
     private JRadioButton worleyButton;
@@ -36,7 +38,9 @@ public class GraphicIO implements IO, ActionListener {
     private JTextField heightField;
     private JTextField scaleField;
     private JTextField seedField;
+    private JButton statsButton;
     private JPanel imagePanel;
+    private JLabel notificationLabel;
 
     /**
      * Constructor.
@@ -47,16 +51,21 @@ public class GraphicIO implements IO, ActionListener {
         this.printer = printer;
     }
 
+    /**
+     * Starts the graphical interface and opens a new window on the screen.
+     */
     public void run() {
         frame = new JFrame("noisegen");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(new BorderLayout());
 
+        notificationLabel = new JLabel();
         imagePanel = new JPanel();
         JPanel items = setupItems();
 
         frame.getContentPane().add(items, BorderLayout.WEST);
         frame.getContentPane().add(imagePanel, BorderLayout.EAST);
+        frame.getContentPane().add(notificationLabel, BorderLayout.NORTH);
 
         frame.pack();
         frame.setVisible(true);
@@ -71,35 +80,54 @@ public class GraphicIO implements IO, ActionListener {
             generateImage();
         } else if ("random".equals(e.getActionCommand())) {
             randomSeed();
+        } else if ("stats".equals(e.getActionCommand())) {
+            showStats();
         }
     }
 
+    /**
+     * Generates a noise image and shows it on the screen.
+     */
     private void generateImage() {
-        // generates a noise image and shows it on the screen.
+        int width;
+        int height;
+        double scale;
+        int seed;
 
-        NoiseGenerator gen;
-
-        if (perlinButton.isSelected()) {
-            gen = new PerlinGenerator(Integer.parseInt(seedField.getText()));
-        } else {
-            gen = new WorleyGenerator(Integer.parseInt(seedField.getText()));
+        try {
+            width = Integer.parseInt(widthField.getText());
+            height = Integer.parseInt(heightField.getText());
+            scale = Double.parseDouble(scaleField.getText());
+            seed = Integer.parseInt(seedField.getText());
+        } catch (Exception e) {
+            notificationLabel.setText("Illegal parameters.");
+            statsButton.setEnabled(false);
+            frame.pack();
+            return;
         }
 
-        int width = Integer.parseInt(widthField.getText());
-        int height = Integer.parseInt(heightField.getText());
-        double scale = Double.parseDouble(scaleField.getText());
+        NoiseGenerator gen;
+        if (perlinButton.isSelected()) {
+            gen = new PerlinGenerator(seed);
+        } else {
+            gen = new WorleyGenerator(seed);
+        }
+
         noise = ArrayFiller.fill2DArray(width, height, scale, gen);
 
         ImageIcon img = new ImageIcon(printer.print2D(noise));
         imagePanel.removeAll();
         imagePanel.add(new JLabel(img));
 
+        notificationLabel.setText("");
+        statsButton.setEnabled(true);
         frame.pack();
     }
 
+    /**
+     * Generates a random seed and sets it in the appropriate field.
+     */
     private void randomSeed() {
-        // generates a random seed and sets it in the appropriate field.
-
         LCGRandom rand = new LCGRandom(System.nanoTime());
         int seed = (int) rand.getRandom();
 
@@ -110,9 +138,40 @@ public class GraphicIO implements IO, ActionListener {
         seedField.setText(seed + "");
     }
 
-    private JPanel setupItems() {
-        // setup menu items for generation parameter inputs.
+    /**
+     * Opens a new window and shows statistics about the last generated noise array.
+     */
+    private void showStats() {
+        if (statsFrame != null) {
+            statsFrame.dispose();
+        }
 
+        statsFrame = new JFrame("statistics");
+        statsFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        statsFrame.setLocationRelativeTo(null);
+        statsFrame.getContentPane().setLayout(new BorderLayout());
+
+        JPanel textStatPanel = new JPanel();
+        textStatPanel.setLayout(new BoxLayout(textStatPanel, BoxLayout.PAGE_AXIS));
+        statsFrame.getContentPane().add(textStatPanel, BorderLayout.WEST);
+
+        textStatPanel.add(new JLabel("Points in range 0.0 - 0.2: " + ArrayStats.pointsInRange(noise, 0.0, 0.2)));
+        textStatPanel.add(new JLabel("Points in range 0.2 - 0.4: " + ArrayStats.pointsInRange(noise, 0.2, 0.4)));
+        textStatPanel.add(new JLabel("Points in range 0.4 - 0.6: " + ArrayStats.pointsInRange(noise, 0.4, 0.6)));
+        textStatPanel.add(new JLabel("Points in range 0.6 - 0.8: " + ArrayStats.pointsInRange(noise, 0.6, 0.8)));
+        textStatPanel.add(new JLabel("Points in range 0.8 - 1.0: " + ArrayStats.pointsInRange(noise, 0.8, 1.0)));
+        textStatPanel.add(new JLabel(" "));
+        textStatPanel.add(new JLabel("Largest single value: " + ArrayStats.largestValue(noise)));
+        textStatPanel.add(new JLabel("Smallest single value: " + ArrayStats.smallestValue(noise)));
+
+        statsFrame.pack();
+        statsFrame.setVisible(true);
+    }
+
+    /**
+     * Initializes menu items for generation parameter inputs.
+     */
+    private JPanel setupItems() {
         JPanel items = new JPanel();
         items.setLayout(new BoxLayout(items, BoxLayout.PAGE_AXIS));
 
@@ -153,6 +212,11 @@ public class GraphicIO implements IO, ActionListener {
         generateButton.setActionCommand("generate");
         generateButton.addActionListener(this);
 
+        statsButton = new JButton("image statistics");
+        statsButton.setEnabled(false);
+        statsButton.setActionCommand("stats");
+        statsButton.addActionListener(this);
+
         items.add(perlinButton);
         items.add(worleyButton);
         items.add(new JLabel(" "));
@@ -167,6 +231,8 @@ public class GraphicIO implements IO, ActionListener {
         items.add(randomSeedButton);
         items.add(new JLabel(" "));
         items.add(generateButton);
+        items.add(new JLabel(" "));
+        items.add(statsButton);
 
         return items;
     }

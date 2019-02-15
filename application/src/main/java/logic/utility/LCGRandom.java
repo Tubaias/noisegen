@@ -1,5 +1,5 @@
 
-package logic;
+package logic.utility;
 
 /**
  * Linear congruential generator algorithm for generating pseudorandom numbers.

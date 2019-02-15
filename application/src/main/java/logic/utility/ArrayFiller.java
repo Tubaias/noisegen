@@ -1,5 +1,5 @@
 
-package logic;
+package logic.utility;
 
 import logic.generator.NoiseGenerator;
 

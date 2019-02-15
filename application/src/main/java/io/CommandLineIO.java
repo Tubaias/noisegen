@@ -2,13 +2,13 @@
 package io;
 
 import java.util.Scanner;
-import logic.ArrayFiller;
+import logic.utility.ArrayFiller;
 import logic.generator.NoiseGenerator;
 import logic.generator.PerlinGenerator;
 import logic.generator.WorleyGenerator;
 
 /**
- * A class for input/output via the command line.
+ * A class for input/output via the command line. Outdated and not currently in use.
  */
 public class CommandLineIO implements IO {
     private Scanner scanner;

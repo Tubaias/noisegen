@@ -1,5 +1,5 @@
 
-package logic;
+package logic.utility;
 
 /**
  * FNV-1a hashing algorithm implementation.
