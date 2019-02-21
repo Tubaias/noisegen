@@ -14,7 +14,10 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JSlider;
 import javax.swing.JTextField;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import logic.utility.ArrayFiller;
 import logic.utility.ArrayStats;
@@ -26,20 +29,25 @@ import logic.generator.WorleyGenerator;
 /**
  * A class for input/output via a graphical interface.
  */
-public class GraphicIO implements IO, ActionListener {
+public class GraphicIO implements IO, ActionListener, ChangeListener {
     private ImagePrinter printer;
-    private double[][] noise;
+    private double[][] noise2D;
+    private double[][][] noise3D;
     private JFrame frame;
 
     private JFrame statsFrame;
     private JRadioButton perlinButton;
     private JRadioButton worleyButton;
+    private JRadioButton _2DButton;
+    private JRadioButton _3DButton;
     private JTextField widthField;
     private JTextField heightField;
+    private JTextField depthField;
     private JTextField scaleField;
     private JTextField seedField;
     private JButton statsButton;
     private JPanel imagePanel;
+    private JSlider depthSlider;
     private long generationTime;
     private JLabel notificationLabel;
 
@@ -61,11 +69,21 @@ public class GraphicIO implements IO, ActionListener {
         frame.getContentPane().setLayout(new BorderLayout());
 
         notificationLabel = new JLabel();
+
         imagePanel = new JPanel();
+        JPanel imageElementPanel = new JPanel();
+        imageElementPanel.setLayout(new BorderLayout());
+        depthSlider = new JSlider(0, 1, 0);
+        depthSlider.setPaintTicks(true);
+        depthSlider.addChangeListener(this);
+
+        imageElementPanel.add(imagePanel, BorderLayout.NORTH);
+        imageElementPanel.add(depthSlider, BorderLayout.SOUTH);
+
         JPanel items = setupItems();
 
         frame.getContentPane().add(items, BorderLayout.WEST);
-        frame.getContentPane().add(imagePanel, BorderLayout.EAST);
+        frame.getContentPane().add(imageElementPanel, BorderLayout.EAST);
         frame.getContentPane().add(notificationLabel, BorderLayout.NORTH);
 
         frame.pack();
@@ -87,11 +105,23 @@ public class GraphicIO implements IO, ActionListener {
     }
 
     /**
+     * Change listening function for the depth slider.
+     */
+    @Override
+    public void stateChanged(ChangeEvent e) {
+        ImageIcon img = new ImageIcon(printer.print2D(noise3D[depthSlider.getValue()]));
+        imagePanel.removeAll();
+        imagePanel.add(new JLabel(img));
+        frame.pack();
+    }
+
+    /**
      * Generates a noise image and shows it on the screen.
      */
     private void generateImage() {
         int width;
         int height;
+        int depth = 1;
         double scale;
         int seed;
 
@@ -100,6 +130,10 @@ public class GraphicIO implements IO, ActionListener {
             height = Integer.parseInt(heightField.getText());
             scale = Double.parseDouble(scaleField.getText());
             seed = Integer.parseInt(seedField.getText());
+
+            if (_3DButton.isSelected()) {
+                depth = Integer.parseInt(depthField.getText());
+            }
         } catch (Exception e) {
             notificationLabel.setText("[!] Illegal parameters.");
             statsButton.setEnabled(false);
@@ -107,7 +141,7 @@ public class GraphicIO implements IO, ActionListener {
             return;
         }
 
-        if (width < 1 || height < 1) {
+        if (width < 1 || height < 1 || depth < 1) {
             notificationLabel.setText("[!] Illegal parameters.");
             statsButton.setEnabled(false);
             frame.pack();
@@ -123,14 +157,31 @@ public class GraphicIO implements IO, ActionListener {
 
         long time = System.nanoTime();
 
-        noise = ArrayFiller.fill2DArray(width, height, scale, gen);
+        if (_2DButton.isSelected()) {
+            noise3D = null;
+            noise2D = ArrayFiller.fill2DArray(width, height, scale, gen);
+        } else {
+            noise2D = null;
+            noise3D = ArrayFiller.fill3DArray(width, height, depth, scale, gen);
+        }
 
         long endTime = System.nanoTime();
         generationTime = endTime - time;
 
-        ImageIcon img = new ImageIcon(printer.print2D(noise));
+        ImageIcon img;
+
+        if (_2DButton.isSelected()) {
+            img = new ImageIcon(printer.print2D(noise2D));
+        } else {
+            img = new ImageIcon(printer.print2D(noise3D[0]));
+            depthSlider.setMaximum(depth - 1);
+            depthSlider.setLabelTable(null);
+            depthSlider.setMajorTickSpacing((int) (depth / 5));
+            depthSlider.setMinorTickSpacing(1);
+        }
+
         imagePanel.removeAll();
-        imagePanel.add(new JLabel(img));
+        imagePanel.add(new JLabel(img), BorderLayout.NORTH);
 
         notificationLabel.setText("");
         statsButton.setEnabled(true);
@@ -170,14 +221,14 @@ public class GraphicIO implements IO, ActionListener {
 
         textStatPanel.add(new JLabel("Time taken to generate: " + (generationTime / 1_000_000.0) + "ms"));
         textStatPanel.add(new JLabel(" "));
-        textStatPanel.add(new JLabel("Points in range 0.0 - 0.2: " + ArrayStats.pointsInRange(noise, 0.0, 0.2)));
-        textStatPanel.add(new JLabel("Points in range 0.2 - 0.4: " + ArrayStats.pointsInRange(noise, 0.2, 0.4)));
-        textStatPanel.add(new JLabel("Points in range 0.4 - 0.6: " + ArrayStats.pointsInRange(noise, 0.4, 0.6)));
-        textStatPanel.add(new JLabel("Points in range 0.6 - 0.8: " + ArrayStats.pointsInRange(noise, 0.6, 0.8)));
-        textStatPanel.add(new JLabel("Points in range 0.8 - 1.0: " + ArrayStats.pointsInRange(noise, 0.8, 1.0)));
+        textStatPanel.add(new JLabel("Points in range 0.0 - 0.2: " + ArrayStats.pointsInRange2D(noise2D, 0.0, 0.2)));
+        textStatPanel.add(new JLabel("Points in range 0.2 - 0.4: " + ArrayStats.pointsInRange2D(noise2D, 0.2, 0.4)));
+        textStatPanel.add(new JLabel("Points in range 0.4 - 0.6: " + ArrayStats.pointsInRange2D(noise2D, 0.4, 0.6)));
+        textStatPanel.add(new JLabel("Points in range 0.6 - 0.8: " + ArrayStats.pointsInRange2D(noise2D, 0.6, 0.8)));
+        textStatPanel.add(new JLabel("Points in range 0.8 - 1.0: " + ArrayStats.pointsInRange2D(noise2D, 0.8, 1.0)));
         textStatPanel.add(new JLabel(" "));
-        textStatPanel.add(new JLabel("Largest single value: " + ArrayStats.largestValue(noise)));
-        textStatPanel.add(new JLabel("Smallest single value: " + ArrayStats.smallestValue(noise)));
+        textStatPanel.add(new JLabel("Largest single value: " + ArrayStats.largestValue2D(noise2D)));
+        textStatPanel.add(new JLabel("Smallest single value: " + ArrayStats.smallestValue2D(noise2D)));
 
         statsFrame.pack();
         statsFrame.setVisible(true);
@@ -198,8 +249,17 @@ public class GraphicIO implements IO, ActionListener {
         algoButtons.add(perlinButton);
         algoButtons.add(worleyButton);
 
+        _2DButton = new JRadioButton("2D");
+        _3DButton = new JRadioButton("3D");
+        _2DButton.setSelected(true);
+
+        ButtonGroup dimensionButtons = new ButtonGroup();
+        dimensionButtons.add(_2DButton);
+        dimensionButtons.add(_3DButton);
+
         widthField = new JTextField(20);
         heightField = new JTextField(20);
+        depthField = new JTextField(20);
         scaleField = new JTextField(20);
         seedField = new JTextField(20);
 
@@ -210,6 +270,10 @@ public class GraphicIO implements IO, ActionListener {
         JPanel heightFieldPanel = new JPanel();
         heightFieldPanel.setLayout(new FlowLayout());
         heightFieldPanel.add(heightField);
+
+        JPanel depthFieldPanel = new JPanel();
+        depthFieldPanel.setLayout(new FlowLayout());
+        depthFieldPanel.add(depthField);
 
         JPanel scaleFieldPanel = new JPanel();
         scaleFieldPanel.setLayout(new FlowLayout());
@@ -232,13 +296,19 @@ public class GraphicIO implements IO, ActionListener {
         statsButton.setActionCommand("stats");
         statsButton.addActionListener(this);
 
+        items.add(new JLabel("algorithm:"));
         items.add(perlinButton);
         items.add(worleyButton);
+        items.add(new JLabel("generation dimensions:"));
+        items.add(_2DButton);
+        items.add(_3DButton);
         items.add(new JLabel(" "));
         items.add(new JLabel("width:"));
         items.add(widthFieldPanel);
         items.add(new JLabel("height:"));
         items.add(heightFieldPanel);
+        items.add(new JLabel("depth:"));
+        items.add(depthFieldPanel);
         items.add(new JLabel("scale (try values < 0.1):"));
         items.add(scaleFieldPanel);
         items.add(new JLabel("seed:"));

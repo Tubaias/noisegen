@@ -38,12 +38,12 @@ public class ArrayFiller {
      * @param gen NoiseGenerator to use for generating the array.
      */
     public static double[][][] fill3DArray(int width, int height, int depth, double scale, NoiseGenerator gen) {
-        double[][][] noiseArray = new double[width][height][depth];
+        double[][][] noiseArray = new double[depth][width][height];
 
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
                 for (int k = 0; k < depth; k++) {
-                    noiseArray[i][j][k] = gen.get3DNoise(i * scale, j * scale, k * scale);
+                    noiseArray[k][i][j] = gen.get3DNoise(i * scale, j * scale, k * scale);
                 }
             }
         }

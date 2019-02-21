@@ -15,11 +15,26 @@ public class FNVHash {
     }
 
     /**
-     * Returns a hash based on the inputs.
+     * Returns a hash based on 2D coordinate inputs.
      */
     public long get2DHash(int x, int y) {
         long hash = offsetBasis;
         byte[] bytes = toByteArray(new int[]{x, y});
+
+        for (byte b : bytes) {
+            hash ^= b;
+            hash *= FNV_prime;
+        }
+
+        return hash & (0x100000000l - 1);
+    }
+
+    /**
+     * Returns a hash based on 3D coordinate inputs.
+     */
+    public long get3DHash(int x, int y, int z) {
+        long hash = offsetBasis;
+        byte[] bytes = toByteArray(new int[]{x, y, z});
 
         for (byte b : bytes) {
             hash ^= b;

@@ -21,25 +21,25 @@ public class ArrayStatsTest {
 
     @Test
     public void largestValueReturnsLargest() {
-        double largest = ArrayStats.largestValue(array);
+        double largest = ArrayStats.largestValue2D(array);
         assertEquals(4, largest, 0.0);
     }
 
     @Test
     public void smallestValueReturnsSmallest() {
-        double smallest = ArrayStats.smallestValue(array);
+        double smallest = ArrayStats.smallestValue2D(array);
         assertEquals(0, smallest, 0.0);
     }
 
     @Test
     public void pointsInRangeWithPointsReturnsRightAmount() {
-        int points = ArrayStats.pointsInRange(array, 0, 1.1);
+        int points = ArrayStats.pointsInRange2D(array, 0, 1.1);
         assertEquals(3, points);
     }
 
     @Test
     public void pointsInRangeWithoutPointsReturnsRightAmount() {
-        int points = ArrayStats.pointsInRange(array, 5.0, 10.0);
+        int points = ArrayStats.pointsInRange2D(array, 5.0, 10.0);
         assertEquals(0, points);
     }
 }

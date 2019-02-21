@@ -11,7 +11,7 @@ public class ArrayStats {
      * @param max Upper bound, exclusive.
      * @return Amount of points in the range between min and max.
      */
-    public static int pointsInRange(double[][] array, double min, double max) {
+    public static int pointsInRange2D(double[][] array, double min, double max) {
         int points = 0;
 
         for (double[] row : array) {
@@ -28,7 +28,7 @@ public class ArrayStats {
     /**
      * Returns the largest single value in the given array.
      */
-    public static double largestValue(double[][] array) {
+    public static double largestValue2D(double[][] array) {
         double largest = 0;
 
         for (double[] row : array) {
@@ -45,7 +45,7 @@ public class ArrayStats {
     /**
      * Returns the smallest single value in the given array.
      */
-    public static double smallestValue(double[][] array) {
+    public static double smallestValue2D(double[][] array) {
         double smallest = 1;
 
         for (double[] row : array) {

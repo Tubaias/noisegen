@@ -13,6 +13,7 @@ public class WorleyGenerator implements NoiseGenerator {
 
     /**
      * Constructor.
+     *
      * @param seed Seed value affecting the pseudorandom generation.
      */
     public WorleyGenerator(int seed) {
@@ -25,6 +26,7 @@ public class WorleyGenerator implements NoiseGenerator {
 
     /**
      * Sets the bounds for the amount of feature points per cell.
+     *
      * @param lower Lower bound.
      * @param upper Upper bound.
      */
@@ -67,7 +69,7 @@ public class WorleyGenerator implements NoiseGenerator {
                     double featurePointX = cellX + randomX;
                     double featurePointY = cellY + randomY;
 
-                    double dist = distance(x, y, featurePointX, featurePointY);
+                    double dist = distance2D(x, y, featurePointX, featurePointY);
 
                     if (dist < minDist) {
                         minDist = dist;
@@ -83,11 +85,63 @@ public class WorleyGenerator implements NoiseGenerator {
         return minDist;
     }
 
-    /**
-     * Not yet implemented.
-     */
     public double get3DNoise(double x, double y, double z) {
-        return 0;
+        // coordinates of the cell the point is in
+        int originCellX = (int) x;
+        int originCellY = (int) y;
+        int originCellZ = (int) z;
+
+        // counter for lowest found distance
+        double minDist = 2;
+
+        // double for-loop going through the cell the point is in and the 8 adjacent cells
+        for (int i = -1; i < 2; i++) {
+            int cellX = originCellX + i;
+
+            for (int j = -1; j < 2; j++) {
+                int cellY = originCellY + j;
+
+                for (int k = -1; k < 2; k++) {
+                    int cellZ = originCellZ + k;
+
+                    // generate initial hash to be used as a seed for the RNG
+                    long hashValue = fnv.get3DHash(cellX + seed, cellY, cellZ);
+                    rand.setSeed(hashValue);
+
+                    // generate the amount of feature points for this cell
+                    long random = rand.getRandom();
+                    int featurePointAmount = featurePointCount(random, featurePointLower, featurePointUpper);
+
+                    // generate the feature points and check their distance to the initial point
+                    for (int p = 0; p < featurePointAmount; p++) {
+                        random = rand.getRandom();
+                        double randomX = (double) random / 0x100000000l;
+
+                        random = rand.getRandom();
+                        double randomY = (double) random / 0x100000000l;
+
+                        random = rand.getRandom();
+                        double randomZ = (double) random / 0x100000000l;
+
+                        double featurePointX = cellX + randomX;
+                        double featurePointY = cellY + randomY;
+                        double featurePointZ = cellZ + randomZ;
+
+                        double dist = distance3D(x, y, z, featurePointX, featurePointY, featurePointZ);
+
+                        if (dist < minDist) {
+                            minDist = dist;
+                        }
+                    }
+                }
+            }
+        }
+
+        if (minDist > 1) {
+            minDist = 1;
+        }
+
+        return minDist;
     }
 
     private int featurePointCount(long value, int lower, int upper) {
@@ -98,8 +152,24 @@ public class WorleyGenerator implements NoiseGenerator {
         return (int) (value % (upper - lower)) + lower;
     }
 
-    //Standard library square root function to be replaced.
-    private double distance(double x1, double y1, double x2, double y2) {
-        return Math.sqrt(((x2 - x1) * (x2 - x1)) + ((y2 - y1) * (y2 - y1)));
+    /**
+     * 2D point distance calculation using the standard library square root function due to it's superior speed.
+     */
+    private double distance2D(double x1, double y1, double x2, double y2) {
+        double xDiff = x2 - x1;
+        double yDiff = y2 - y1;
+
+        return Math.sqrt(xDiff * xDiff + yDiff * yDiff);
+    }
+
+    /**
+     * 3D point distance calculation using the standard library square root function due to it's superior speed.
+     */
+    private double distance3D(double x1, double y1, double z1, double x2, double y2, double z2) {
+        double xDiff = x2 - x1;
+        double yDiff = y2 - y1;
+        double zDiff = z2 - z1;
+
+        return Math.sqrt(xDiff * xDiff + yDiff * yDiff + zDiff * zDiff);
     }
 }
