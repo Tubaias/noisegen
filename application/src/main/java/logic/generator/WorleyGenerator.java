@@ -55,16 +55,12 @@ public class WorleyGenerator implements NoiseGenerator {
                 rand.setSeed(hashValue);
 
                 // generate the amount of feature points for this cell
-                long random = rand.getRandom();
-                int featurePointAmount = featurePointCount(random, featurePointLower, featurePointUpper);
+                int featurePointAmount = featurePointCount(rand.getRandom(), featurePointLower, featurePointUpper);
 
                 // generate the feature points and check their distance to the initial point
                 for (int p = 0; p < featurePointAmount; p++) {
-                    random = rand.getRandom();
-                    double randomX = (double) random / 0x100000000l;
-
-                    random = rand.getRandom();
-                    double randomY = (double) random / 0x100000000l;
+                    double randomX = (double) rand.getRandom() / 0x100000000l;
+                    double randomY = (double) rand.getRandom() / 0x100000000l;
 
                     double featurePointX = cellX + randomX;
                     double featurePointY = cellY + randomY;
@@ -109,19 +105,13 @@ public class WorleyGenerator implements NoiseGenerator {
                     rand.setSeed(hashValue);
 
                     // generate the amount of feature points for this cell
-                    long random = rand.getRandom();
-                    int featurePointAmount = featurePointCount(random, featurePointLower, featurePointUpper);
+                    int featurePointAmount = featurePointCount(rand.getRandom(), featurePointLower, featurePointUpper);
 
                     // generate the feature points and check their distance to the initial point
                     for (int p = 0; p < featurePointAmount; p++) {
-                        random = rand.getRandom();
-                        double randomX = (double) random / 0x100000000l;
-
-                        random = rand.getRandom();
-                        double randomY = (double) random / 0x100000000l;
-
-                        random = rand.getRandom();
-                        double randomZ = (double) random / 0x100000000l;
+                        double randomX = (double) rand.getRandom() / 0x100000000l;
+                        double randomY = (double) rand.getRandom() / 0x100000000l;
+                        double randomZ = (double) rand.getRandom() / 0x100000000l;
 
                         double featurePointX = cellX + randomX;
                         double featurePointY = cellY + randomY;
