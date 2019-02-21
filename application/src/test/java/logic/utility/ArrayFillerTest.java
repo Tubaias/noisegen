@@ -45,9 +45,9 @@ public class ArrayFillerTest {
 
         double[][][] array = ArrayFiller.fill3DArray(width, heigth, depth, 0.5, gen);
 
-        assertEquals(width, array.length);
-        assertEquals(heigth, array[0].length);
-        assertEquals(depth, array[0][0].length);
+        assertEquals(depth, array.length);
+        assertEquals(width, array[0].length);
+        assertEquals(heigth, array[0][0].length);
     }
 
     @Test
