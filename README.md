@@ -12,6 +12,8 @@
 
 [Viikko 5](https://github.com/Tubaias/noisegen/blob/master/documentation/weekreports/viikko5.md)
 
+[Viikko 6](https://github.com/Tubaias/noisegen/blob/master/documentation/weekreports/viikko6.md)
+
 ## Muu dokumentaatio
 
 [Määrittelydokumentti](https://github.com/Tubaias/noisegen/blob/master/documentation/Maarittelydokumentti.md)
