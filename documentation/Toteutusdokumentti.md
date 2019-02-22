@@ -3,8 +3,11 @@
 ## Ohjelman rakenne
 
 Ohjelma toimii tällä hetkellä yhden näkymän graafisessa käyttöliittymässä, jossa käyttäjä voi valita parametrit generoinnille
-(käytetty algoritmi, kuvan leveys ja korkeus, melun skaala ja satunnaisgeneroinnin lähtöarvo). Generointinappia painaessa ohjelma
-generoi halutuilla parametreilla ja melualgoritmilla taulukon, joka sitten piirretään näytölle grayscale-kuvana. Lisäksi ohjelmaan saa nappia painamalla näkyviin statistiikkaa generoidusta taulukosta, kuten generointiin kestänyt aika ja taulukon arvojen jakautuminen.
+(käytetty algoritmi, kuvan leveys, korkeus ja syvyys, melun skaala ja satunnaisgeneroinnin lähtöarvo). Generointinappia painaessa ohjelma generoi halutuilla parametreilla ja melualgoritmilla taulukon, joka sitten piirretään näytölle grayscale-kuvana. Lisäksi ohjelmaan saa nappia painamalla näkyviin statistiikkaa generoidusta taulukosta, kuten generointiin kestänyt aika ja taulukon arvojen jakautuminen.
+
+Perlin- ja Worley noise -algoritmien lisäksi ohjelma käyttää avukseen FNVHashia ja LCGRandomia. Algoritmit ja laskenta on kaikki
+toteutettu itse. Ainoana poikkeuksena on Javan standardikirjaston neliöjuurifunktio Math.sqrt(), jota ei kannata korvata omalla
+toteutuksella, koska standarditoteutus perustuu hardware-tukeen ja on tämän takia aina nopeampi.
 
 ## Algoritmien analyysi
 
