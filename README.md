@@ -1,5 +1,14 @@
 # noisegen
 
+## Dokumentaatio
+
+[Määrittelydokumentti](https://github.com/Tubaias/noisegen/blob/master/documentation/Maarittelydokumentti.md)
+
+[Toteutusdokumentti](https://github.com/Tubaias/noisegen/blob/master/documentation/Toteutusdokumentti.md)
+
+[Testausdokumentti](https://github.com/Tubaias/noisegen/blob/master/documentation/Testausdokumentti.md)
+
+
 ## Viikkoraportit
 
 [Viikko 1](https://github.com/Tubaias/noisegen/blob/master/documentation/weekreports/viikko1.md)
@@ -13,15 +22,6 @@
 [Viikko 5](https://github.com/Tubaias/noisegen/blob/master/documentation/weekreports/viikko5.md)
 
 [Viikko 6](https://github.com/Tubaias/noisegen/blob/master/documentation/weekreports/viikko6.md)
-
-## Muu dokumentaatio
-
-[Määrittelydokumentti](https://github.com/Tubaias/noisegen/blob/master/documentation/Maarittelydokumentti.md)
-
-[Toteutusdokumentti](https://github.com/Tubaias/noisegen/blob/master/documentation/Toteutusdokumentti.md)
-
-[Testausdokumentti](https://github.com/Tubaias/noisegen/blob/master/documentation/Testausdokumentti.md)
-
 
 ## Kuvia
 
