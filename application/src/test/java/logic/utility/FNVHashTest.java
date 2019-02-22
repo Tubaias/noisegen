@@ -25,4 +25,17 @@ public class FNVHashTest {
         assertTrue(hash3 >= 0);
         assertTrue(hash4 >= 0);
     }
+
+    @Test
+    public void get3DHashReturnsNonNegativeValues() {
+        long hash1 = fnv.get3DHash(0, 0, 0);
+        long hash2 = fnv.get3DHash(1000, 1000, 500);
+        long hash3 = fnv.get3DHash(123456, 0, 30);
+        long hash4 = fnv.get3DHash(15, 256, 500);
+
+        assertTrue(hash1 >= 0);
+        assertTrue(hash2 >= 0);
+        assertTrue(hash3 >= 0);
+        assertTrue(hash4 >= 0);
+    }
 }
