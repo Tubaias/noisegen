@@ -6,13 +6,22 @@ import java.io.File;
 
 import javax.imageio.ImageIO;
 
+/**
+ * Class for printing 2D noise arrays into BufferedImages or saving them into PNG files.
+ */
 public class ImagePrinter {
 
-    public BufferedImage print2D(double[][] noise) {
+    /**
+     * Returns a BufferedImage representing the give noise array.
+     */
+    public BufferedImage print(double[][] noise) {
         return createImage(noise);
     }
 
-    public void print2DToFile(double[][] noise) {
+    /**
+     * Saves a PNG image representing the noise array into the application's root folder.
+     */
+    public void printToFile(double[][] noise) {
         BufferedImage img = createImage(noise);
 
         try {

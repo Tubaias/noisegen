@@ -135,11 +135,13 @@ public class WorleyGenerator implements NoiseGenerator {
     }
 
     private int featurePointCount(long value, int lower, int upper) {
-        if (lower == upper) {
+        if (lower > upper) {
+            return 0;
+        } else if (lower == upper) {
             return lower;
         }
 
-        return (int) (value % (upper - lower)) + lower;
+        return (int) (value % (upper - lower + 1)) + lower;
     }
 
     /**

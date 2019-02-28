@@ -5,6 +5,8 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
@@ -29,26 +31,39 @@ import logic.generator.WorleyGenerator;
 /**
  * A class for input/output via a graphical interface.
  */
-public class GraphicIO implements IO, ActionListener, ChangeListener {
+public class GraphicIO implements ActionListener, ChangeListener, ItemListener {
     private ImagePrinter printer;
     private double[][] noise2D;
     private double[][][] noise3D;
-    private JFrame frame;
+    private long generationTime;
 
+    private JFrame frame;
     private JFrame statsFrame;
     private JRadioButton perlinButton;
     private JRadioButton worleyButton;
+
     private JRadioButton _2DButton;
     private JRadioButton _3DButton;
+
     private JTextField widthField;
     private JTextField heightField;
-    private JTextField depthField;
     private JTextField scaleField;
     private JTextField seedField;
+
+    private JPanel depthFieldPanel;
+    private JTextField depthField;
+    private JLabel depthLabel;
+
+    private JPanel fPointUpperFieldPanel;
+    private JPanel fPointLowerFieldPanel;
+    private JTextField fPointUpperField;
+    private JTextField fPointLowerField;
+    private JLabel fPointUpperLabel;
+    private JLabel fPointLowerLabel;
+
     private JButton statsButton;
     private JPanel imagePanel;
     private JSlider depthSlider;
-    private long generationTime;
     private JLabel notificationLabel;
 
     /**
@@ -110,7 +125,32 @@ public class GraphicIO implements IO, ActionListener, ChangeListener {
      */
     @Override
     public void stateChanged(ChangeEvent e) {
-        ImageIcon img = new ImageIcon(printer.print2D(noise3D[depthSlider.getValue()]));
+        updateImageDepth();
+    }
+
+    /**
+     * Item listening function for the radio buttons.
+     */
+    @Override
+    public void itemStateChanged(ItemEvent e) {
+        if (e.getSource().equals(worleyButton)) {
+            fPointLowerFieldPanel.setVisible(!fPointLowerFieldPanel.isVisible());
+            fPointLowerField.setVisible(!fPointLowerField.isVisible());
+            fPointLowerLabel.setVisible(!fPointLowerLabel.isVisible());
+            fPointUpperFieldPanel.setVisible(!fPointUpperFieldPanel.isVisible());
+            fPointUpperField.setVisible(!fPointUpperField.isVisible());
+            fPointUpperLabel.setVisible(!fPointUpperLabel.isVisible());
+            frame.pack();
+        } else if (e.getSource().equals(_3DButton)) {
+            depthFieldPanel.setVisible(!depthFieldPanel.isVisible());
+            depthField.setVisible(!depthField.isVisible());
+            depthLabel.setVisible(!depthLabel.isVisible());
+            frame.pack();
+        }
+    }
+
+    private void updateImageDepth() {
+        ImageIcon img = new ImageIcon(printer.print(noise3D[depthSlider.getValue()]));
         imagePanel.removeAll();
         imagePanel.add(new JLabel(img));
         frame.pack();
@@ -125,12 +165,16 @@ public class GraphicIO implements IO, ActionListener, ChangeListener {
         int depth = 1;
         double scale;
         int seed;
+        int fPointLower;
+        int fPointUpper;
 
         try {
             width = Integer.parseInt(widthField.getText());
             height = Integer.parseInt(heightField.getText());
             scale = Double.parseDouble(scaleField.getText());
             seed = Integer.parseInt(seedField.getText());
+            fPointLower = Integer.parseInt(fPointLowerField.getText());
+            fPointUpper = Integer.parseInt(fPointUpperField.getText());
 
             if (_3DButton.isSelected()) {
                 depth = Integer.parseInt(depthField.getText());
@@ -153,7 +197,9 @@ public class GraphicIO implements IO, ActionListener, ChangeListener {
         if (perlinButton.isSelected()) {
             gen = new PerlinGenerator(seed);
         } else {
-            gen = new WorleyGenerator(seed);
+            WorleyGenerator worleygen = new WorleyGenerator(seed);
+            worleygen.setFeaturePointBounds(fPointLower, fPointUpper);
+            gen = worleygen;
         }
 
         long time = System.nanoTime();
@@ -174,9 +220,9 @@ public class GraphicIO implements IO, ActionListener, ChangeListener {
         ImageIcon img;
 
         if (_2DButton.isSelected()) {
-            img = new ImageIcon(printer.print2D(noise2D));
+            img = new ImageIcon(printer.print(noise2D));
         } else {
-            img = new ImageIcon(printer.print2D(noise3D[0]));
+            img = new ImageIcon(printer.print(noise3D[0]));
             depthSlider.setMaximum(depth - 1);
             depthSlider.setLabelTable(null);
             depthSlider.setMajorTickSpacing((int) (depth / 5));
@@ -260,27 +306,17 @@ public class GraphicIO implements IO, ActionListener, ChangeListener {
         JPanel items = new JPanel();
         items.setLayout(new BoxLayout(items, BoxLayout.PAGE_AXIS));
 
-        perlinButton = new JRadioButton("Perlin noise");
-        worleyButton = new JRadioButton("Worley noise");
-        perlinButton.setSelected(true);
+        initButtons();
+        initFields();
+        initHideableItems();
 
         ButtonGroup algoButtons = new ButtonGroup();
         algoButtons.add(perlinButton);
         algoButtons.add(worleyButton);
 
-        _2DButton = new JRadioButton("2D");
-        _3DButton = new JRadioButton("3D");
-        _2DButton.setSelected(true);
-
         ButtonGroup dimensionButtons = new ButtonGroup();
         dimensionButtons.add(_2DButton);
         dimensionButtons.add(_3DButton);
-
-        widthField = new JTextField(20);
-        heightField = new JTextField(20);
-        depthField = new JTextField(20);
-        scaleField = new JTextField(20);
-        seedField = new JTextField(20);
 
         JPanel widthFieldPanel = new JPanel();
         widthFieldPanel.setLayout(new FlowLayout());
@@ -289,10 +325,6 @@ public class GraphicIO implements IO, ActionListener, ChangeListener {
         JPanel heightFieldPanel = new JPanel();
         heightFieldPanel.setLayout(new FlowLayout());
         heightFieldPanel.add(heightField);
-
-        JPanel depthFieldPanel = new JPanel();
-        depthFieldPanel.setLayout(new FlowLayout());
-        depthFieldPanel.add(depthField);
 
         JPanel scaleFieldPanel = new JPanel();
         scaleFieldPanel.setLayout(new FlowLayout());
@@ -310,11 +342,6 @@ public class GraphicIO implements IO, ActionListener, ChangeListener {
         generateButton.setActionCommand("generate");
         generateButton.addActionListener(this);
 
-        statsButton = new JButton("image statistics");
-        statsButton.setEnabled(false);
-        statsButton.setActionCommand("stats");
-        statsButton.addActionListener(this);
-
         items.add(new JLabel("algorithm:"));
         items.add(perlinButton);
         items.add(worleyButton);
@@ -326,18 +353,92 @@ public class GraphicIO implements IO, ActionListener, ChangeListener {
         items.add(widthFieldPanel);
         items.add(new JLabel("height:"));
         items.add(heightFieldPanel);
-        items.add(new JLabel("depth:"));
+        items.add(depthLabel);
         items.add(depthFieldPanel);
         items.add(new JLabel("scale (try values < 0.1):"));
         items.add(scaleFieldPanel);
+        items.add(fPointLowerLabel);
+        items.add(fPointLowerFieldPanel);
+        items.add(fPointUpperLabel);
+        items.add(fPointUpperFieldPanel);
         items.add(new JLabel("seed:"));
         items.add(seedFieldPanel);
         items.add(randomSeedButton);
         items.add(new JLabel(" "));
         items.add(generateButton);
-        items.add(new JLabel(" "));
+        items.add(new JLabel(" "));;
         items.add(statsButton);
 
         return items;
+    }
+
+    private void initButtons() {
+        perlinButton = new JRadioButton("Perlin noise");
+        perlinButton.setSelected(true);
+
+        worleyButton = new JRadioButton("Worley noise");
+        worleyButton.addItemListener(this);
+
+        _2DButton = new JRadioButton("2D");
+        _2DButton.setSelected(true);
+
+        _3DButton = new JRadioButton("3D");
+        _3DButton.addItemListener(this);
+
+        statsButton = new JButton("image statistics");
+        statsButton.setEnabled(false);
+        statsButton.setActionCommand("stats");
+        statsButton.addActionListener(this);
+    }
+
+    private void initFields() {
+        widthField = new JTextField(20);
+        widthField.setText("512");
+
+        heightField = new JTextField(20);
+        heightField.setText("512");
+
+        depthField = new JTextField(20);
+        depthField.setText("1");
+        depthField.setVisible(false);
+
+        scaleField = new JTextField(20);
+        scaleField.setText("0.05");
+
+        seedField = new JTextField(20);
+        seedField.setText("1");
+
+        fPointUpperField = new JTextField(20);
+        fPointUpperField.setText("1");
+        fPointUpperField.setVisible(false);
+
+        fPointLowerField = new JTextField(20);
+        fPointLowerField.setText("1");
+        fPointLowerField.setVisible(false);
+    }
+
+    private void initHideableItems() {
+        depthFieldPanel = new JPanel();
+        depthFieldPanel.setLayout(new FlowLayout());
+        depthFieldPanel.setVisible(false);
+        depthFieldPanel.add(depthField);
+
+        depthLabel = new JLabel("depth:");
+        depthLabel.setVisible(false);
+
+        fPointUpperFieldPanel = new JPanel();
+        fPointUpperFieldPanel.setLayout(new FlowLayout());
+        fPointUpperFieldPanel.setVisible(false);
+        fPointUpperFieldPanel.add(fPointUpperField);
+
+        fPointLowerFieldPanel = new JPanel();
+        fPointLowerFieldPanel.setLayout(new FlowLayout());
+        fPointLowerFieldPanel.setVisible(false);
+        fPointLowerFieldPanel.add(fPointLowerField);
+
+        fPointLowerLabel = new JLabel("feature point minimum:");
+        fPointUpperLabel = new JLabel("feature point maximum:");
+        fPointLowerLabel.setVisible(false);
+        fPointUpperLabel.setVisible(false);
     }
 }
