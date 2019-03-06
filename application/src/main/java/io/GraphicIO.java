@@ -18,6 +18,7 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JSlider;
 import javax.swing.JTextField;
+import javax.swing.Timer;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -65,6 +66,10 @@ public class GraphicIO implements ActionListener, ChangeListener, ItemListener {
     private JPanel imagePanel;
     private JSlider depthSlider;
     private JLabel notificationLabel;
+
+    private JButton animateButton;
+    private int animationDepthIndex;
+    private Timer animationTimer;
 
     /**
      * Constructor.
@@ -117,6 +122,15 @@ public class GraphicIO implements ActionListener, ChangeListener, ItemListener {
             randomSeed();
         } else if ("stats".equals(e.getActionCommand())) {
             showStats();
+        } else if ("animate".equals(e.getActionCommand())) {
+            startAnimation();
+        } else if ("updateDepth".equals(e.getActionCommand())) {
+            if (animationDepthIndex == noise3D.length) {
+                animationTimer.stop();
+            }
+
+            depthSlider.setValue(animationDepthIndex);
+            animationDepthIndex++;
         }
     }
 
@@ -125,7 +139,7 @@ public class GraphicIO implements ActionListener, ChangeListener, ItemListener {
      */
     @Override
     public void stateChanged(ChangeEvent e) {
-        updateImageDepth();
+        updateImageDepth(depthSlider.getValue());
     }
 
     /**
@@ -149,8 +163,8 @@ public class GraphicIO implements ActionListener, ChangeListener, ItemListener {
         }
     }
 
-    private void updateImageDepth() {
-        ImageIcon img = new ImageIcon(printer.print(noise3D[depthSlider.getValue()]));
+    private void updateImageDepth(int depth) {
+        ImageIcon img = new ImageIcon(printer.print(noise3D[depth]));
         imagePanel.removeAll();
         imagePanel.add(new JLabel(img));
         frame.pack();
@@ -208,10 +222,12 @@ public class GraphicIO implements ActionListener, ChangeListener, ItemListener {
             noise3D = null;
             noise2D = ArrayFiller.fill2DArray(width, height, scale, gen);
             depthSlider.setVisible(false);
+            animateButton.setEnabled(false);
         } else {
             noise2D = null;
             noise3D = ArrayFiller.fill3DArray(width, height, depth, scale, gen);
             depthSlider.setVisible(true);
+            animateButton.setEnabled(true);
         }
 
         long endTime = System.nanoTime();
@@ -252,6 +268,21 @@ public class GraphicIO implements ActionListener, ChangeListener, ItemListener {
     }
 
     /**
+     * Creates a swing Timer and starts iterating through layers of the last generated 3D noise array.
+     */
+    private void startAnimation() {
+        animationDepthIndex = 0;
+
+        if (animationTimer != null) {
+            animationTimer.stop();
+        }
+
+        animationTimer = new Timer(40, this);
+        animationTimer.setActionCommand("updateDepth");
+        animationTimer.start();
+    }
+
+    /**
      * Opens a new window and shows statistics about the last generated noise array.
      */
     private void showStats() {
@@ -274,25 +305,25 @@ public class GraphicIO implements ActionListener, ChangeListener, ItemListener {
         if (noise2D != null) {
             textStatPanel.add(new JLabel("Dimension: 2D"));
             textStatPanel.add(new JLabel(" "));
-            textStatPanel.add(new JLabel("Points in range 0.0 - 0.2: " + ArrayStats.pointsInRange2D(noise2D, 0.0, 0.2)));
-            textStatPanel.add(new JLabel("Points in range 0.2 - 0.4: " + ArrayStats.pointsInRange2D(noise2D, 0.2, 0.4)));
-            textStatPanel.add(new JLabel("Points in range 0.4 - 0.6: " + ArrayStats.pointsInRange2D(noise2D, 0.4, 0.6)));
-            textStatPanel.add(new JLabel("Points in range 0.6 - 0.8: " + ArrayStats.pointsInRange2D(noise2D, 0.6, 0.8)));
-            textStatPanel.add(new JLabel("Points in range 0.8 - 1.0: " + ArrayStats.pointsInRange2D(noise2D, 0.8, 1.0)));
+            textStatPanel.add(new JLabel("Points in range 0.0 - 0.2: " + ArrayStats.pointsInRange(noise2D, 0.0, 0.2)));
+            textStatPanel.add(new JLabel("Points in range 0.2 - 0.4: " + ArrayStats.pointsInRange(noise2D, 0.2, 0.4)));
+            textStatPanel.add(new JLabel("Points in range 0.4 - 0.6: " + ArrayStats.pointsInRange(noise2D, 0.4, 0.6)));
+            textStatPanel.add(new JLabel("Points in range 0.6 - 0.8: " + ArrayStats.pointsInRange(noise2D, 0.6, 0.8)));
+            textStatPanel.add(new JLabel("Points in range 0.8 - 1.0: " + ArrayStats.pointsInRange(noise2D, 0.8, 1.0)));
             textStatPanel.add(new JLabel(" "));
-            textStatPanel.add(new JLabel("Largest single value: " + ArrayStats.largestValue2D(noise2D)));
-            textStatPanel.add(new JLabel("Smallest single value: " + ArrayStats.smallestValue2D(noise2D)));
+            textStatPanel.add(new JLabel("Largest single value: " + ArrayStats.largestValue(noise2D)));
+            textStatPanel.add(new JLabel("Smallest single value: " + ArrayStats.smallestValue(noise2D)));
         } else {
             textStatPanel.add(new JLabel("Dimension: 3D"));
             textStatPanel.add(new JLabel(" "));
-            textStatPanel.add(new JLabel("Points in range 0.0 - 0.2: " + ArrayStats.pointsInRange3D(noise3D, 0.0, 0.2)));
-            textStatPanel.add(new JLabel("Points in range 0.2 - 0.4: " + ArrayStats.pointsInRange3D(noise3D, 0.2, 0.4)));
-            textStatPanel.add(new JLabel("Points in range 0.4 - 0.6: " + ArrayStats.pointsInRange3D(noise3D, 0.4, 0.6)));
-            textStatPanel.add(new JLabel("Points in range 0.6 - 0.8: " + ArrayStats.pointsInRange3D(noise3D, 0.6, 0.8)));
-            textStatPanel.add(new JLabel("Points in range 0.8 - 1.0: " + ArrayStats.pointsInRange3D(noise3D, 0.8, 1.0)));
+            textStatPanel.add(new JLabel("Points in range 0.0 - 0.2: " + ArrayStats.pointsInRange(noise3D, 0.0, 0.2)));
+            textStatPanel.add(new JLabel("Points in range 0.2 - 0.4: " + ArrayStats.pointsInRange(noise3D, 0.2, 0.4)));
+            textStatPanel.add(new JLabel("Points in range 0.4 - 0.6: " + ArrayStats.pointsInRange(noise3D, 0.4, 0.6)));
+            textStatPanel.add(new JLabel("Points in range 0.6 - 0.8: " + ArrayStats.pointsInRange(noise3D, 0.6, 0.8)));
+            textStatPanel.add(new JLabel("Points in range 0.8 - 1.0: " + ArrayStats.pointsInRange(noise3D, 0.8, 1.0)));
             textStatPanel.add(new JLabel(" "));
-            textStatPanel.add(new JLabel("Largest single value: " + ArrayStats.largestValue3D(noise3D)));
-            textStatPanel.add(new JLabel("Smallest single value: " + ArrayStats.smallestValue3D(noise3D)));
+            textStatPanel.add(new JLabel("Largest single value: " + ArrayStats.largestValue(noise3D)));
+            textStatPanel.add(new JLabel("Smallest single value: " + ArrayStats.smallestValue(noise3D)));
         }
 
         statsFrame.pack();
@@ -366,8 +397,10 @@ public class GraphicIO implements ActionListener, ChangeListener, ItemListener {
         items.add(randomSeedButton);
         items.add(new JLabel(" "));
         items.add(generateButton);
-        items.add(new JLabel(" "));;
+        items.add(new JLabel(" "));
         items.add(statsButton);
+        items.add(new JLabel(" "));
+        items.add(animateButton);
 
         return items;
     }
@@ -389,6 +422,11 @@ public class GraphicIO implements ActionListener, ChangeListener, ItemListener {
         statsButton.setEnabled(false);
         statsButton.setActionCommand("stats");
         statsButton.addActionListener(this);
+
+        animateButton = new JButton("animate 3D noise");
+        animateButton.setEnabled(false);
+        animateButton.setActionCommand("animate");
+        animateButton.addActionListener(this);
     }
 
     private void initFields() {

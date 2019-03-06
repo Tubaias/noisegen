@@ -27,49 +27,49 @@ public class ArrayStatsTest {
 
     @Test
     public void largestValue2DReturnsLargest() {
-        double largest = ArrayStats.largestValue2D(array2D);
+        double largest = ArrayStats.largestValue(array2D);
         assertEquals(4, largest, 0.0);
     }
 
     @Test
     public void smallestValue2DReturnsSmallest() {
-        double smallest = ArrayStats.smallestValue2D(array2D);
+        double smallest = ArrayStats.smallestValue(array2D);
         assertEquals(0, smallest, 0.0);
     }
 
     @Test
     public void pointsInRange2DWithPointsReturnsRightAmount() {
-        int points = ArrayStats.pointsInRange2D(array2D, 0, 1.1);
+        int points = ArrayStats.pointsInRange(array2D, 0, 1.1);
         assertEquals(3, points);
     }
 
     @Test
     public void pointsInRange2DWithoutPointsReturnsRightAmount() {
-        int points = ArrayStats.pointsInRange2D(array2D, 5.0, 10.0);
+        int points = ArrayStats.pointsInRange(array2D, 5.0, 10.0);
         assertEquals(0, points);
     }
 
     @Test
     public void largestValue3DReturnsLargest() {
-        double largest = ArrayStats.largestValue3D(array3D);
+        double largest = ArrayStats.largestValue(array3D);
         assertEquals(6, largest, 0.0);
     }
 
     @Test
     public void smallestValue3DReturnsSmallest() {
-        double smallest = ArrayStats.smallestValue3D(array3D);
+        double smallest = ArrayStats.smallestValue(array3D);
         assertEquals(0, smallest, 0.0);
     }
 
     @Test
     public void pointsInRange3DWithPointsReturnsRightAmount() {
-        int points = ArrayStats.pointsInRange3D(array3D, 0, 1.1);
+        int points = ArrayStats.pointsInRange(array3D, 0, 1.1);
         assertEquals(4, points);
     }
 
     @Test
     public void pointsInRange3DWithoutPointsReturnsRightAmount() {
-        int points = ArrayStats.pointsInRange3D(array3D, 7.0, 10.0);
+        int points = ArrayStats.pointsInRange(array3D, 7.0, 10.0);
         assertEquals(0, points);
     }
 }

@@ -12,7 +12,7 @@ import javax.imageio.ImageIO;
 public class ImagePrinter {
 
     /**
-     * Returns a BufferedImage representing the give noise array.
+     * Returns a BufferedImage representing the given noise array.
      */
     public BufferedImage print(double[][] noise) {
         return createImage(noise);
@@ -25,7 +25,7 @@ public class ImagePrinter {
         BufferedImage img = createImage(noise);
 
         try {
-            ImageIO.write(img, "PNG", new File("./asdfasd.png"));
+            ImageIO.write(img, "PNG", new File("./savedimage.png"));
         } catch(Exception e) {
             System.out.println(e.getMessage());
         }
