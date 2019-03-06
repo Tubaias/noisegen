@@ -31,5 +31,11 @@
 2D Perlin noise
 ![2D Perlin noise](https://github.com/Tubaias/noisegen/blob/master/documentation/images/perlin2D.png "2D Perlin noise")
 
-ASCII Perlin noise
-![ASCII Perlin noise](https://github.com/Tubaias/noisegen/blob/master/documentation/images/ASCII_perlin.png "ASCII Perlin noise")
+3D Worley noise
+![3D Worley noise](https://github.com/Tubaias/noisegen/blob/master/documentation/images/worley3D.gif "3D Worley noise")
+
+3D Perlin noise
+![3D Perlin noise](https://github.com/Tubaias/noisegen/blob/master/documentation/images/perlin3D.gif "3D Perlin noise")
+
+Spugedelic 3D Worley noise
+![Spugedelic 3D Worley noise](https://github.com/Tubaias/noisegen/blob/master/documentation/images/worleySpuge.gif "Spugedelic 3D Worley noise")
