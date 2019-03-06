@@ -43,18 +43,21 @@ public class ImagePrinter {
         BufferedImage img = print(noise);
 
         try {
-            File directory = new File("./savedimages/");
+            File directory = new File("./noisegen-images/");
             if (!directory.exists()) {
                 directory.mkdir();
             }
 
-            ImageIO.write(img, "PNG", new File("./savedimages/image" + fileNameCounter + ".png"));
+            ImageIO.write(img, "PNG", new File("./noisegen-images/image" + fileNameCounter + ".png"));
             fileNameCounter++;
         } catch(Exception e) {
             System.out.println(e.getMessage());
         }
     }
 
+    /**
+     * Draws a grayscale image.
+     */
     private BufferedImage createImage(double[][] noise) {
         BufferedImage img = new BufferedImage(noise.length, noise[0].length, BufferedImage.TYPE_INT_RGB);
 
@@ -72,6 +75,9 @@ public class ImagePrinter {
         return img;
     }
 
+    /**
+     * Draws a spugedelic image.
+     */
     private BufferedImage createSpugeImage(double[][] noise) {
         BufferedImage img = new BufferedImage(noise.length, noise[0].length, BufferedImage.TYPE_INT_RGB);
 
