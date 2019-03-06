@@ -25,12 +25,6 @@
 
 ## Kuvia
 
-2D Worley noise
-![2D Worley noise](https://github.com/Tubaias/noisegen/blob/master/documentation/images/worley2D.png "2D Worley noise")
-
-2D Perlin noise
-![2D Perlin noise](https://github.com/Tubaias/noisegen/blob/master/documentation/images/perlin2D.png "2D Perlin noise")
-
 3D Worley noise
 
 ![3D Worley noise](https://github.com/Tubaias/noisegen/blob/master/documentation/images/worley3D.gif "3D Worley noise")
@@ -42,3 +36,9 @@
 Spugedelic 3D Worley noise
 
 ![Spugedelic 3D Worley noise](https://github.com/Tubaias/noisegen/blob/master/documentation/images/worleySpuge.gif "Spugedelic 3D Worley noise")
+
+2D Worley noise
+![2D Worley noise](https://github.com/Tubaias/noisegen/blob/master/documentation/images/worley2D.png "2D Worley noise")
+
+2D Perlin noise
+![2D Perlin noise](https://github.com/Tubaias/noisegen/blob/master/documentation/images/perlin2D.png "2D Perlin noise")
