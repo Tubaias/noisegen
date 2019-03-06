@@ -71,6 +71,11 @@ public class GraphicIO implements ActionListener, ChangeListener, ItemListener {
     private int animationDepthIndex;
     private Timer animationTimer;
 
+    private JButton saveButton;
+
+    private JRadioButton grayscaleButton;
+    private JRadioButton spugeButton;
+
     /**
      * Constructor.
      *
@@ -124,6 +129,8 @@ public class GraphicIO implements ActionListener, ChangeListener, ItemListener {
             showStats();
         } else if ("animate".equals(e.getActionCommand())) {
             startAnimation();
+        } else if ("save".equals(e.getActionCommand())) {
+            saveToFile();
         } else if ("updateDepth".equals(e.getActionCommand())) {
             if (animationDepthIndex == noise3D.length) {
                 animationTimer.stop();
@@ -160,9 +167,14 @@ public class GraphicIO implements ActionListener, ChangeListener, ItemListener {
             depthField.setVisible(!depthField.isVisible());
             depthLabel.setVisible(!depthLabel.isVisible());
             frame.pack();
+        } else if (e.getSource().equals(spugeButton)) {
+            printer.setSpuge(spugeButton.isSelected());
         }
     }
 
+    /**
+     * Updates which depthwise layer of the current 3D array is shown.
+     */
     private void updateImageDepth(int depth) {
         ImageIcon img = new ImageIcon(printer.print(noise3D[depth]));
         imagePanel.removeAll();
@@ -250,7 +262,21 @@ public class GraphicIO implements ActionListener, ChangeListener, ItemListener {
 
         notificationLabel.setText("");
         statsButton.setEnabled(true);
+        saveButton.setEnabled(true);
         frame.pack();
+    }
+
+    /**
+     * Saves the last generated noise array to one or more PNG files in the application's root folder.
+     */
+    private void saveToFile() {
+        if (noise2D != null) {
+            printer.printToFile(noise2D);
+        } else {
+            for (double[][] layer : noise3D) {
+                printer.printToFile(layer);
+            }
+        }
     }
 
     /**
@@ -349,6 +375,10 @@ public class GraphicIO implements ActionListener, ChangeListener, ItemListener {
         dimensionButtons.add(_2DButton);
         dimensionButtons.add(_3DButton);
 
+        ButtonGroup drawingButtons = new ButtonGroup();
+        drawingButtons.add(grayscaleButton);
+        drawingButtons.add(spugeButton);
+
         JPanel widthFieldPanel = new JPanel();
         widthFieldPanel.setLayout(new FlowLayout());
         widthFieldPanel.add(widthField);
@@ -379,6 +409,9 @@ public class GraphicIO implements ActionListener, ChangeListener, ItemListener {
         items.add(new JLabel("generation dimensions:"));
         items.add(_2DButton);
         items.add(_3DButton);
+        items.add(new JLabel("drawing style:"));
+        items.add(grayscaleButton);
+        items.add(spugeButton);
         items.add(new JLabel(" "));
         items.add(new JLabel("width:"));
         items.add(widthFieldPanel);
@@ -401,6 +434,8 @@ public class GraphicIO implements ActionListener, ChangeListener, ItemListener {
         items.add(statsButton);
         items.add(new JLabel(" "));
         items.add(animateButton);
+        items.add(new JLabel(" "));
+        items.add(saveButton);
 
         return items;
     }
@@ -418,6 +453,12 @@ public class GraphicIO implements ActionListener, ChangeListener, ItemListener {
         _3DButton = new JRadioButton("3D");
         _3DButton.addItemListener(this);
 
+        grayscaleButton = new JRadioButton("Grayscale");
+        grayscaleButton.setSelected(true);
+
+        spugeButton = new JRadioButton("Spugedelic");
+        spugeButton.addItemListener(this);
+
         statsButton = new JButton("image statistics");
         statsButton.setEnabled(false);
         statsButton.setActionCommand("stats");
@@ -427,6 +468,11 @@ public class GraphicIO implements ActionListener, ChangeListener, ItemListener {
         animateButton.setEnabled(false);
         animateButton.setActionCommand("animate");
         animateButton.addActionListener(this);
+
+        saveButton = new JButton("save to file(s)");
+        saveButton.setEnabled(false);
+        saveButton.setActionCommand("save");
+        saveButton.addActionListener(this);
     }
 
     private void initFields() {
