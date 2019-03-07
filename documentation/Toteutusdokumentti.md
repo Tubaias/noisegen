@@ -2,8 +2,7 @@
 
 ## Ohjelman rakenne
 
-Ohjelma toimii tällä hetkellä yhden näkymän graafisessa käyttöliittymässä, jossa käyttäjä voi valita parametrit generoinnille
-(käytetty algoritmi, kuvan leveys, korkeus ja syvyys, melun skaala ja satunnaisgeneroinnin lähtöarvo). Generointinappia painaessa ohjelma generoi halutuilla parametreilla ja melualgoritmilla taulukon, joka sitten piirretään näytölle grayscale-kuvana. Lisäksi ohjelmaan saa nappia painamalla näkyviin statistiikkaa generoidusta taulukosta, kuten generointiin kestänyt aika ja taulukon arvojen jakautuminen.
+Ohjelma toimii tällä hetkellä yhden näkymän graafisessa käyttöliittymässä, jossa käyttäjä voi valita parametrit generoinnille. Generointinappia painaessa ohjelma generoi halutuilla parametreilla ja melualgoritmilla taulukon, joka sitten piirretään näytölle kuvana. Lisäksi ohjelmaan saa nappia painamalla näkyviin statistiikkaa generoidusta taulukosta, kuten generointiin kestänyt aika ja taulukon arvojen jakautuminen, ja generoinnin tuloksen voi tallentaa yhteen tai useampaan PNG-tiedostoon.
 
 Perlin- ja Worley noise -algoritmien lisäksi ohjelma käyttää avukseen FNVHashia ja LCGRandomia. Algoritmit ja laskenta on kaikki
 toteutettu itse. Ainoana poikkeuksena on Javan standardikirjaston neliöjuurifunktio Math.sqrt(), jota ei kannata korvata omalla
@@ -19,21 +18,18 @@ algoritmien aikavaativuus on rajoitetulla ulottuvuuksien määrällä yksittäis
 
 Kiinnostavampi tulos algoritmien aikavaativuudesta on kuitenkin niiden skaalautuminen *n* ulottuvuuteen. Perlin noise -algoritmin aikavaativuus on tunnetusti luokkaa O(2^n) *n* ulottuvuudella [1]. Tällä hetkellä toteutetun Worley noisen aikavaativus taas on toteutuksen tutkimisen perusteella luokkaa O(3^n) *n* ulottuvuudella.
 
-Tässä täytyy kuitenkin ottaa myös huomioon, että ohjelman Worley noise -toteutus on tällä hetkellä variaatio, joka käyttää tällä
-hetkellä vain yhtä 'feature pointtia' per generoinnin solu, ja Steven Worleyn alkuperäinen artikkeli ehdottaa useampiin 'feature 
-pointteihin' perustuvia optimointimenetelmiä algoritmille [2].
+Tässä täytyy kuitenkin ottaa myös huomioon, että ohjelman Worley noise -toteutus on tällä hetkellä variaatio, joka ei toteuta tiettyjä Steven Worleyn alkuperäisen artikkelin ehdottamia optimointimenetelmiä algoritmille, ja optimoitu versio saattaisi olla selvästi tehokkaampi [2].
 
-Vaikka molemmat algoritmit ovat vakioaikaisia, algoritmien nopeudella on käytännössä kuitenkin merkittävä ero. Testatessa kaksiulotteisia algoritmeja taulukon koolla 2048\*2048, skaalalla 0.1, Perlin noise -algoritmi generoi taulukon 4194304 arvoa noin 70 millisekunnissa, kun taas Worley noise -algoritmilla kestää noin 850 millisekuntia. Ohjelman toteutuksilla kaksiulotteinen Perlin noise -algoritmi on siis algoritmien vakioaikaisuudesta huolimatta noin kymmenen kertaa kaksiulotteista Worleytä nopeampi samoilla syötteillä.
+Vaikka molemmat algoritmit ovat vakioaikaisia, algoritmien nopeudella on käytännössä kuitenkin merkittävä ero. Testatessa kaksiulotteisia algoritmeja taulukon koolla 2048\*2048, skaalalla 0.05, Perlin noise -algoritmi generoi taulukon 4194304 arvoa keskimäärin noin 69 millisekunnissa, kun taas Worley noise -algoritmilla kestää noin 787 millisekuntia. Ohjelman toteutuksilla kaksiulotteinen Perlin noise -algoritmi on siis algoritmien 'vakioaikaisuudesta' huolimatta noin kymmenen kertaa kaksiulotteista Worleytä nopeampi samoilla syötteillä.
 
-Kolmiulotteisia algoritmeja testatessa taulukon koolla 2048\*2048\*1 ja skaalalla 0.1, Perlin noise generoi taulukon 4194304 arvoa noin 200 millisekunnissa, kun taas Worley noisella kestää noin 3100 millisekuntia. Tästä voidaan siis huomata, että siirtyessä kaksiulotteisista pisteistä kolmiulotteisiin, Perlin noisen aikavaativuus nousee yli kaksinkertaiseksi ja Worley noisen yli kolminkertaiseksi, vaikka generoitavien pisteiden määrä on edelleen sama. Algoritmit ovat siis lähellä aikavaativuuksien mukaista skaalautumista kolmanteen ulottuvuuteen.
+Kolmiulotteisia algoritmeja testatessa taulukon koolla 512\*512\*16 ja skaalalla 0.05, Perlin noise generoi taulukon 4194304 arvoa keskimäärin noin 182 millisekunnissa, kun taas Worley noisella kestää noin 2825 millisekuntia. Tästä voidaan siis huomata, että siirtyessä kaksiulotteisista pisteistä kolmiulotteisiin, Perlin noisen aikavaativuus nousee yli kaksinkertaiseksi ja Worley noisen yli kolminkertaiseksi, vaikka generoitavien pisteiden määrä on edelleen sama. Algoritmit ovat siis lähellä aikavaativuuksien mukaista skaalautumista kolmanteen ulottuvuuteen.
 
 Molempien algoritmien tilavaativuudet ovat luokkaa O(1) ja käytännössä triviaaleja. Perlin noise -algoritmin tilavaativuus on
-hieman Worley noisea suurempi, koska Perlinin algoritmi käyttää hajautusarvojen generointiin kovakoodattua taulukkoa, joka pitää
+hieman Worley noisea suurempi, koska Perlinin algoritmi käyttää hajautusarvojen generointiin taulukkoa, joka pitää
 sisällään 512 kokonaislukuarvoa.
 
 ## Työn puutteet
-
-Tällä hetkellä Worley noise -algoritmia ei voi konfiguroida käyttämään useampaa kuin yhtä 'feature pointtia' per generoinnin solu, vaikka useammalle olisi algorimissa kirjoitettu tuki. Worley noise ei tällä hetkellä myöskään toteuta aiemmin mainittuja Steven Worleyn mainitsemia optimointeja.
+Projektin selvästi suurin puute on, että Worley noise ei tällä hetkellä toteuta aiemmin mainittuja Steven Worleyn mainitsemia optimointeja.
 
 ## Lähteet
 
