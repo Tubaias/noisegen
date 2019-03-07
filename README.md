@@ -8,6 +8,7 @@
 
 [Testausdokumentti](https://github.com/Tubaias/noisegen/blob/master/documentation/Testausdokumentti.md)
 
+[Käyttöohje](https://github.com/Tubaias/noisegen/blob/master/documentation/Kayttoohje.md)
 
 ## Viikkoraportit
 
