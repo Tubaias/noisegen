@@ -35,3 +35,25 @@ Projektin selvästi suurin puute on, että Worley noise ei tällä hetkellä tot
 
 1. [Terrain synthesis using noise](https://tampub.uta.fi/bitstream/handle/10024/101043/GRADU-1494236249.pdf) (Tuomo Hyttinen 2017)
 2. [A Cellular Texture Basis Function](https://dl.acm.org/citation.cfm?id=237267) (Steven Worley 1996)
+
+Lisäksi projektin toteutuksessa ja algoritmien toiminnan opettelussa käytettiin seuraavia lähteitä:
+
+Perlin noise:
+
+- https://flafla2.github.io/2014/08/09/perlinnoise.html
+
+- https://www.scratchapixel.com/lessons/procedural-generation-virtual-worlds/perlin-noise-part-2
+
+Worley noise:
+
+- https://thebookofshaders.com/12/
+
+- https://aftbit.com/cell-noise-2/
+
+FNVHash:
+
+- http://isthe.com/chongo/tech/comp/fnv/#FNV-1a
+
+LCGRandom:
+
+- https://en.wikipedia.org/wiki/Linear_congruential_generator
