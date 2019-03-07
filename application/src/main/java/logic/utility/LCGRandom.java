@@ -10,7 +10,6 @@ public class LCGRandom {
     private long lastRandom;
 
     /**
-     * Constructor.
      * @param seed Initial seed value for random generation.
      */
     public LCGRandom(long seed) {

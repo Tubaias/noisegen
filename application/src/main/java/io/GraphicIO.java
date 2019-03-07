@@ -77,8 +77,6 @@ public class GraphicIO implements ActionListener, ChangeListener, ItemListener {
     private JRadioButton spugeButton;
 
     /**
-     * Constructor.
-     *
      * @param printer Printer to print results into files.
      */
     public GraphicIO(ImagePrinter printer) {

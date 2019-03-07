@@ -12,8 +12,6 @@ public class WorleyGenerator implements NoiseGenerator {
     private int featurePointUpper;
 
     /**
-     * Constructor.
-     *
      * @param seed Seed value affecting the pseudorandom generation.
      */
     public WorleyGenerator(int seed) {

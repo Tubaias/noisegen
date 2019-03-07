@@ -11,8 +11,6 @@ public class PerlinGenerator implements NoiseGenerator {
     private final int[] p;
 
     /**
-     * Constructor.
-     *
      * @param seed Seed value affecting the pseudorandom generation.
      */
     public PerlinGenerator(int seed) {
