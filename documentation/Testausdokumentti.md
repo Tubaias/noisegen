@@ -8,7 +8,22 @@ Ohjelman toteutuksilla kaksiulotteinen Perlin noise -algoritmi on siis algoritmi
 
 Kolmiulotteisia algoritmeja testatessa taulukon koolla 512\*512\*16 ja skaalalla 0.05, Perlin noise generoi taulukon 4194304 arvoa noin 182 millisekunnissa, kun taas Worley noisella kestää noin 2825 millisekuntia. Tästä voidaan siis huomata, että siirtyessä kaksiulotteisista pisteistä kolmiulotteisiin, Perlin noisen aikavaativuus nousee yli kaksinkertaiseksi ja Worley noisen yli kolminkertaiseksi, vaikka generoitavien pisteiden määrä on edelleen sama.
 
-Myös algoritmien luomien pisteiden jakaumaa on testattu. Molemmat algoritmit generoivat liukulukuarvoja välilä 0-1. Testauksen perusteella voidaan huomata, että sekä kaksi- että kolmiulotteisten Perlin noise -taulukkojen arvojen jakauma on lähellä normaalijakaumaa. Kaksiulotteinen Worley noise suosii lähellä nollaa olevia (tummia) arvoja, kun taas kolmiulotteinen Worley noise suosii lähellä yhtä olevia (vaaleita) arvoja. Kuitenkin mitä enemmän kerroksia kolmiulotteisella Worleylla generoi samaan taulukkoon, sitä vähäisempää vaaleiden arvojen suosiminen on. Uskoisin, että tämä johtuu algoritmin poikkeuksellisesta toiminnasta, kun lähellä nollaa olevan pisteen naapurien laskennassa tarkistetaankin negatiivisia koordinaatteja, minkä takia nollasyvyyttä lähellä olevat pisteet ovat tavallista vaaleampia. Ohessa hieman kaavioita jakaumista.
+Myös algoritmien luomien pisteiden jakaumaa on testattu. Molemmat algoritmit generoivat liukulukuarvoja välilä 0-1. Testauksen perusteella voidaan huomata, että sekä kaksi- että kolmiulotteisten Perlin noise -taulukkojen arvojen jakauma on lähellä normaalijakaumaa. Kaksiulotteinen Worley noise suosii lähellä nollaa olevia (tummia) arvoja, kun taas kolmiulotteinen Worley noise suosii lähellä yhtä olevia (vaaleita) arvoja. Kuitenkin mitä enemmän kerroksia kolmiulotteisella Worleylla generoi samaan taulukkoon, sitä vähäisempää vaaleiden arvojen suosiminen on. Uskoisin, että tämä johtuu algoritmin poikkeuksellisesta toiminnasta, kun lähellä nollaa olevan pisteen naapurien laskennassa tarkistetaankin negatiivisia koordinaatteja, minkä takia nollasyvyyttä lähellä olevat pisteet ovat tavallista vaaleampia. Ohessa hieman kaavioita jakaumista:
+
+2D Perlin noise:
+![perlin2D](https://github.com/Tubaias/noisegen/blob/master/documentation/images/perlin2Dchart.png)
+
+3D Perlin noise:
+![perlin3D](https://github.com/Tubaias/noisegen/blob/master/documentation/images/perlin3Dchart.png)
+
+2D Worley noise:
+![worley2D](https://github.com/Tubaias/noisegen/blob/master/documentation/images/worley2Dchart.png)
+
+3D Worley noise:
+![worley3D](https://github.com/Tubaias/noisegen/blob/master/documentation/images/worley3Dchart.png)
+
+3D Worley noise (more depth):
+![worley3D-deep](https://github.com/Tubaias/noisegen/blob/master/documentation/images/worley3DchartDeep.png)
 
 Pääalgoritmien testauksen lisäksi ohjelmalle on toteutettu eri logiikkaluokkien tulosten oikeellisuutta vahtivia yksikkötestejä.
 Kaiken kaikkiaan ohjelman logiikkaluokkien testien rivikattavuus on 95% ja haaraumakattavuus 94%.
