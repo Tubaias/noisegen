@@ -38,6 +38,8 @@ public class ArrayFiller {
      * @param gen NoiseGenerator to use for generating the array.
      */
     public static double[][][] fill3DArray(int width, int height, int depth, double scale, NoiseGenerator gen) {
+        long time = System.nanoTime();
+
         double[][][] noiseArray = new double[depth][width][height];
 
         for (int i = 0; i < width; i++) {
@@ -47,6 +49,9 @@ public class ArrayFiller {
                 }
             }
         }
+
+        long endTime = System.nanoTime();
+        System.out.println("generation duration: " + ((endTime - time) / 1_000_000.0));
 
         return noiseArray;
     }
